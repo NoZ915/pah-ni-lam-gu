@@ -1,18 +1,15 @@
 import {contain, keyboard, hitTestRectangle, sceneLimit} from "/game/helperFunction.js";
-import ScenesManager from "/game/scenesManager.js";
 
 let Application = PIXI.Application,
     Container = PIXI.Container,
     loader = PIXI.loader,
     resources = PIXI.loader.resources,
-    Graphics = PIXI.Graphics,
-    TextureCache = PIXI.utils.TextureCache,
     Sprite = PIXI.Sprite,
     Text = PIXI.Text,
     TextStyle = PIXI.TextStyle;
 
-let state, player, scene1, scene2, block, block2, gameScene,
-    playerContainer,sceneContainer,scenesManager;
+var state, player, scene1, scene2, block, block2, gameScene,
+    playerContainer,scene1Container,scene2Container;
 
 let app = new Application({ 
     width: 512, 
@@ -36,56 +33,35 @@ loader
 function setUp(){
   gameScene = new Container();
   app.stage.addChild(gameScene); 
-  
-  // sceneContainer = new Container();
-  // app.stage.addChild(sceneContainer);
-  // scene1 = new Sprite(resources.scene1.texture);
-  // scene1.width = app.screen.width * 4;
-  // scene1.height = app.screen.height * 4;
-  // sceneContainer.addChild(scene1); 
 
-  // block = new Sprite(resources.block.texture);
-  // block.x = app.screen.width * 0.5+70;
-  // block.y = app.screen.height * 0.5;
-  // block.width = 32;
-  // block.height = 32;
-  // sceneContainer.addChild(block);
+  scene1Container = new Container();
+  scene2Container = new Container();
 
-  sceneContainer = new Container();
-  app.stage.addChild(sceneContainer);
+  app.stage.addChild(scene1Container);
   scene1 = new Sprite(resources.scene1.texture);
   scene1.width = app.screen.width * 4;
   scene1.height = app.screen.height * 4;
-
-  scene2 = new Sprite(resources.scene2.texture);
-  scene2.width = app.screen.width * 4;
-  scene2.height = app.screen.height * 4;
-
+  scene1Container.addChild(scene1); 
   block = new Sprite(resources.block.texture);
   block.x = app.screen.width * 0.5+70;
   block.y = app.screen.height * 0.5;
   block.width = 32;
   block.height = 32;
+  scene1Container.addChild(block);
+
+  app.stage.addChild(scene2Container);
+  scene2 = new Sprite(resources.scene2.texture);
+  scene2.width = app.screen.width * 4;
+  scene2.height = app.screen.height * 4;
+  scene2Container.addChild(scene2);
   block2 = new Sprite(resources.block2.texture);
-  block2.x = app.screen.width * 0.5+70;
+  block2.x = app.screen.width * 0.5+180;
   block2.y = app.screen.height * 0.5;
   block2.width = 32;
   block2.height = 32;
-
-  var drawScene1 = function(){
-    sceneContainer.addChild(scene1); 
-    sceneContainer.addChild(block);
-  }
-  var drawScene2 = function(){
-    sceneContainer.addChild(scene2);
-    sceneContainer.addChild(block2);
-  }
-
-  scenesManager = new ScenesManager();
-  scenesManager.createScene("scene1", drawScene1);
-  scenesManager.createScene("scene2", drawScene2);
-  scenesManager.goToScene("scene1");
-
+  scene2Container.addChild(block2);
+  scene2Container.visible = false;
+  
   playerContainer = new Container();
   app.stage.addChild(playerContainer);
   player = new Sprite(resources.player.texture);
@@ -105,44 +81,33 @@ function setUp(){
   left.press = function() {
     player.vx = -5;
     player.vy = 0;
-    console.log("player位置" + player.x+ "," + player.y)
-    console.log("sceneContainer位置" + sceneContainer.x+ "," + sceneContainer.y)
   };
   left.release = function() {
     if (!right.isDown && player.vy === 0) {
       player.vx = 0;
     }
   };
-
   up.press = function() {
     player.vy = -5;
     player.vx = 0;
-    console.log("player位置" + player.x+ "," + player.y)
-    console.log("sceneContainer位置" + sceneContainer.x+ "," + sceneContainer.y)
   };
   up.release = function() {
     if (!down.isDown && player.vx === 0) {
       player.vy = 0;
     }
   };
-
   right.press = function() {
     player.vx = 5;
     player.vy = 0;
-    console.log("player位置" + player.x+ "," + player.y)
-    console.log("sceneContainer位置" + sceneContainer.x+ "," + sceneContainer.y)
   };
   right.release = function() {
     if (!left.isDown && player.vy === 0) {
       player.vx = 0;
     }
   };
-
   down.press = function() {
     player.vy = 5;
     player.vx = 0;
-    console.log("player位置" + player.x+ "," + player.y)
-    console.log("sceneContainer位置" + sceneContainer.x+ "," + sceneContainer.y)
   };
   down.release = function() {
     if (!up.isDown && player.vx === 0) {
@@ -163,18 +128,24 @@ function play(delta){
   player.y += player.vy;
   
   contain(player, {x: 0, y: 0, width: 2048, height: 1297});
-  sceneLimit(player, playerContainer, scene1, sceneContainer, app);
+  
+  if(scene1Container.visible){
+    sceneLimit(player, playerContainer, scene1, scene1Container, app);
 
-  if(hitTestRectangle(player, block)){
-    console.log("gotoblock2")
-    app.stage.removeChild(block);
-    scenesManager.goToScene("scene2");
+    if(hitTestRectangle(player, block)){
+      scene1Container.visible = false;
+      scene2Container.visible = true;
+      console.log("hit 1")
+    }
   }
-  if(block2){
+
+  if(scene2Container.visible){
+    sceneLimit(player, playerContainer, scene2, scene2Container, app);
+
     if(hitTestRectangle(player, block2)){
-      console.log("gotoblock1")
-      app.stage.removeChild(block2);
-      scenesManager.goToScene("scene1");
+      scene2Container.visible = false;
+      scene1Container.visible = true;
+      console.log("hit 2")
     }
   }
 }

@@ -135,9 +135,25 @@ function play(delta){
     if(hitTestRectangle(player, block)){
       scene1Container.visible = false;
       scene2Container.visible = true;
-      console.log("hit 1")
+      state = goToScene2;
+      console.log("hit 1");
     }
   }
+
+  // if(scene2Container.visible){
+  //   sceneLimit(player, playerContainer, scene2, scene2Container, app);
+
+  //   if(hitTestRectangle(player, block2)){
+  //     scene2Container.visible = false;
+  //     scene1Container.visible = true;
+  //     console.log("hit 2")
+  //   }
+  // }
+}
+
+function goToScene2(){
+  player.x += player.vx;
+  player.y += player.vy;
 
   if(scene2Container.visible){
     sceneLimit(player, playerContainer, scene2, scene2Container, app);
@@ -145,8 +161,9 @@ function play(delta){
     if(hitTestRectangle(player, block2)){
       scene2Container.visible = false;
       scene1Container.visible = true;
-      console.log("hit 2")
+      state = play;
+      console.log("hit 2");
     }
   }
-}
 
+}

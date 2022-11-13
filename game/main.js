@@ -11,17 +11,14 @@ let Application = PIXI.Application,
 var state, player, scene1, scene2, block, block2, gameScene,
   playerContainer, scene1Container, scene2Container;
 
-let mainCanvas = document.getElementById("main-canvas");
 let app = new Application({
   width: 1024,
   height: 648,
-  resizeTo: mainCanvas,
-  // antialiasing: true,
-  // transparent: false,
   resolution: 1
 }
 );
 
+let mainCanvas = document.getElementById("main-canvas");
 mainCanvas.appendChild(app.view);
 
 loader
@@ -41,8 +38,8 @@ function setUp() {
 
   app.stage.addChild(scene1Container);
   scene1 = new Sprite(resources.scene1.texture);
-  scene1.width = app.screen.width * 4;
-  scene1.height = app.screen.height * 4;
+  scene1.width = app.screen.width * 2;
+  scene1.height = app.screen.height * 3;
   scene1Container.addChild(scene1);
   block = new Sprite(resources.block.texture);
   block.x = app.screen.width * 0.5 + 70;
@@ -68,8 +65,8 @@ function setUp() {
   app.stage.addChild(playerContainer);
   player = new Sprite(resources.player.texture);
   player.anchor.set(0.5, 0.5);
-  player.x = app.screen.width * 0.5;
-  player.y = app.screen.height * 0.5;
+  player.x = app.screen.width * 0.8;
+  player.y = app.screen.height * 0.8;
   player.vx = 0;
   player.vy = 0;
   playerContainer.addChild(player);
@@ -129,7 +126,7 @@ function play(delta) {
   player.x += player.vx;
   player.y += player.vy;
 
-  contain(player, { x: 0, y: 0, width: 2048, height: 1297 });
+  contain(player, { x: 0, y: 0, width: 2048, height: 1944 });
 
   if (scene1Container.visible) {
     sceneLimit(player, playerContainer, scene1, scene1Container, app);
@@ -141,16 +138,6 @@ function play(delta) {
       console.log("hit 1");
     }
   }
-
-  // if(scene2Container.visible){
-  //   sceneLimit(player, playerContainer, scene2, scene2Container, app);
-
-  //   if(hitTestRectangle(player, block2)){
-  //     scene2Container.visible = false;
-  //     scene1Container.visible = true;
-  //     console.log("hit 2")
-  //   }
-  // }
 }
 
 function goToScene2() {

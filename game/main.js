@@ -25,9 +25,18 @@ loader
   .add("scene1", "./img/scene1.png")
   .add("scene2", "./img/scene2.png")
   .add("player", "./img/player.png")
+  .add("playerAnimate", "./img/player/playerAnimate.json")
   .add("block", "./img/block.png")
   .add("block2", "./img/block2.png")
   .load(setUp);
+
+  // let playerAnimateTextures = [];
+  // for(let i=0; i<6; i++){
+  //   playerAnimateTextures.push(PIXI.Texture.fromFrame(`1${i}.png`))
+  // }
+  // const playerGoLeft = new PIXI.extras.AnimatedSprite(playerAnimateTextures);
+  // playerGoLeft.infinite = true;
+  // playerGoLeft.play();
 
 function setUp() {
   gameScene = new Container();

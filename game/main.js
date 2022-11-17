@@ -1,4 +1,5 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "/game/helperFunction.js";
+import{turnOnAnimate,turnOffAnimate} from "/game/animateState.js"
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -28,10 +29,9 @@ mainCanvas.appendChild(app.view);
 loader
   .add("scene1", "./img/scene1.png")
   .add("scene2", "./img/scene2.png")
-  .add("player", "./img/player/player.png")
   .add("playerAnimate", "./img/player/playerAnimate.png")
-  .add("statue", "./img/statue/statue.png")
   .add("statueAnimate", "/img/statue/statueAnimate.png")
+  .add("templeAnimate", "/img/temple/templeAnimate.png")
   .add("blo2", "./img/blo2.png")
   .load(setUp);
 
@@ -40,24 +40,16 @@ function setUp() {
   app.stage.addChild(gameScene);
 
   scene1Container = new Container();
-  scene2Container = new Container();
-
   app.stage.addChild(scene1Container);
+
   scene1 = new Sprite(resources.scene1.texture);
   scene1.width = app.screen.width * 2;
   scene1.height = app.screen.height * 3;
   scene1Container.addChild(scene1);
 
-  createStatueSheet();
-  createStatue();
-  // statue = new Sprite(resources.statue.texture);
-  // statue.x = app.screen.width * 0.5 + 150;
-  // statue.y = app.screen.height * 0.5;
-  // statue.width = 512;
-  // statue.height = 486;
-  // scene1Container.addChild(statue);
-
+  scene2Container = new Container();
   app.stage.addChild(scene2Container);
+
   scene2 = new Sprite(resources.scene2.texture);
   scene2.width = app.screen.width * 4;
   scene2.height = app.screen.height * 4;
@@ -69,6 +61,9 @@ function setUp() {
   blo2.height = 32;
   scene2Container.addChild(blo2);
   scene2Container.visible = false;
+
+  createStatueSheet();
+  createStatue();
 
   createPlayerSheet();
   createPlayer();
@@ -140,13 +135,12 @@ function play(delta) {
 
   if (scene1Container.visible) {
     sceneLimit(player, playerContainer, scene1, scene1Container, app);
+    let space = keyboard(32);
+
     if (hitTestRectangle(player, statue)) {
-    
       if(!statue.playing){
         turnOnAnimate(statue, statueSheet.on);
       }
-
-      let space = keyboard(32);
       space.press = function () {
         scene1Container.visible = false;
         scene2Container.visible = true;
@@ -156,6 +150,8 @@ function play(delta) {
     }else{
       turnOffAnimate(statue, statueSheet.off);
     }
+
+
   }
 }
 
@@ -241,14 +237,14 @@ function createPlayer() {
 
 function createStatueSheet(){
   let ssheet = PIXI.Texture.from(resources.statueAnimate.texture);
-  let w = 512;
+  let w = 295;
   let h = 486;
 
   statueSheet["on"] = [
     new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h)),
     new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 0 * h, w, h)),
-    new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 1 * h, w, h)),
-    new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 1 * h, w ,h))
+    new PIXI.Texture(ssheet, new PIXI.Rectangle(2 * w, 0 * h, w, h)),
+    new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 1 * h, w ,h))
   ];
   statueSheet["off"] = [
     new PIXI.Texture(ssheet, new PIXI.Rectangle(0*w, 0*h, w, h))
@@ -257,22 +253,12 @@ function createStatueSheet(){
 function createStatue(){
   statue = new PIXI.extras.AnimatedSprite(statueSheet.off);
   statue.anchor.set(0.5, 0.5);
-  statue.animationSpeed = 0.3;
+  statue.animationSpeed = 0.1;
   statue.loop = false;
   statue.x = app.screen.width * 0.5 + 150;
   statue.y = app.screen.height * 0.5;
-  statue.width = 512;
+  statue.width = 295;
   statue.height = 486;
   scene1Container.addChild(statue);
   statue.play();
-}
-
-function turnOnAnimate(sprite, animateState) {
-  sprite.textures = animateState;
-  sprite.loop = true;
-  sprite.play();
-}
-function turnOffAnimate(sprite, animateState) {
-  sprite.loop = false;
-  sprite.textures = animateState;
 }

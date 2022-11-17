@@ -143,7 +143,6 @@ function play(delta) {
 
     //撞雕像
     if (hitTestRectangle(player, statue)) {
-      console.log("hit the statue"+statue.playing);
       if(!statue.playing){
         turnOnAnimate(statue, statueSheet.on);
       }
@@ -156,7 +155,6 @@ function play(delta) {
     
     //撞孔廟
     if(hitTestRectangle(player, temple)){
-      console.log("hit the temple"+ temple.playing);
       if(!temple.playing){
         turnOnAnimate(temple, templeSheet.on);
       }
@@ -164,7 +162,6 @@ function play(delta) {
         scene1Container.visible = false;
         scene2Container.visible = true;
         state = goToScene2;
-        console.log("hit 1");
       }
     }else{
       turnOffAnimate(temple, templeSheet.off);

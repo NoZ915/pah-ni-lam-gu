@@ -150,12 +150,14 @@ function play(delta) {
       }
 
       if(textBox.classList.contains("display-none")){
-        space.press = function () {
+        space.press = function() {
+          console.log(space.press)
           text.innerText = `這裡是湯德章公園，注意雕像面向的位置...`;
           textBox.classList.remove("display-none");
         }
       }else{
-        space.press = function () {
+        space.press = function() {
+          console.log(space.press)
           textBox.classList.add("display-none");
         }
       }
@@ -171,11 +173,12 @@ function play(delta) {
       if(!temple.playing){
         turnOnAnimate(temple, templeSheet.on);
       }
-      space.press = function(){
-        scene1Container.visible = false;
-        scene2Container.visible = true;
-        state = goToScene2;
-      }
+      // space.press = function(){
+      //   console.log(space.press)
+      //   scene1Container.visible = false;
+      //   scene2Container.visible = true;
+      //   state = goToScene2;
+      // }
 
     }else{
       turnOffAnimate(temple, templeSheet.off);

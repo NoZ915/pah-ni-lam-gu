@@ -1,4 +1,5 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "/game/helperFunction.js";
+import { turnOnAnimate, turnOffAnimate } from "/game/animateSwitch.js"
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -8,11 +9,15 @@ let Application = PIXI.Application,
   Text = PIXI.Text,
   TextStyle = PIXI.TextStyle;
 
-var playerSheet = {};
-var statueSheet = {};
-var templeSheet = {};
+let playerSheet = {};
+let statueSheet = {};
+let templeSheet = {};
 
-var state, player, scene1, scene2, 
+let textBox = document.querySelector(".text-box");
+let text = document.querySelector(".text");
+let mainCanvas = document.getElementById("main-canvas");
+
+let state, player, scene1, scene2, 
   statue, temple, blo2, gameScene,
   playerContainer, scene1Container, scene2Container;
 
@@ -22,10 +27,7 @@ let app = new Application({
   resolution: 1
 }
 );
-
-let mainCanvas = document.getElementById("main-canvas");
 mainCanvas.appendChild(app.view);
-
 
 loader
   .add("scene1", "./img/scene1.png")
@@ -146,13 +148,24 @@ function play(delta) {
       if(!statue.playing){
         turnOnAnimate(statue, statueSheet.on);
       }
-      space.press = function () {
-        //跑出字幕
+
+      if(textBox.classList.contains("display-none")){
+        space.press = function () {
+          text.innerText = `這裡是湯德章公園，注意雕像面向的位置...`;
+          textBox.classList.remove("display-none");
+        }
+      }else{
+        space.press = function () {
+          textBox.classList.add("display-none");
+        }
       }
+
     }else{
       turnOffAnimate(statue, statueSheet.off);
+      if(!textBox.classList.contains("display-none")){
+        textBox.classList.add("display-none");
+      }
     }
-    
     //撞孔廟
     if(hitTestRectangle(player, temple)){
       if(!temple.playing){
@@ -163,10 +176,11 @@ function play(delta) {
         scene2Container.visible = true;
         state = goToScene2;
       }
+
     }else{
       turnOffAnimate(temple, templeSheet.off);
     }
-
+    // console.log(space.press)
   }
 }
 
@@ -302,14 +316,4 @@ function createTemple(){
   temple.width = 512;
   temple.height = 486;
   scene1Container.addChild(temple);
-}
-
-function turnOnAnimate(sprite, animateState) {
-  sprite.textures = animateState;
-  sprite.loop = true;
-  sprite.play();
-}
-function turnOffAnimate(sprite, animateState) {
-  sprite.loop = false;
-  sprite.textures = animateState;
 }

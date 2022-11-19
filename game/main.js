@@ -1,23 +1,20 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "/game/helperFunction.js";
-import { turnOnAnimate, turnOffAnimate } from "/game/animateSwitch.js"
+import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText } from "/game/animateSwitch.js"
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
   loader = PIXI.loader,
   resources = PIXI.loader.resources,
-  Sprite = PIXI.Sprite,
-  Text = PIXI.Text,
-  TextStyle = PIXI.TextStyle;
+  Sprite = PIXI.Sprite;
 
 let playerSheet = {};
 let statueSheet = {};
 let templeSheet = {};
+let space = keyboard(32);
 
-let textBox = document.querySelector(".text-box");
-let text = document.querySelector(".text");
 let mainCanvas = document.getElementById("main-canvas");
 
-let state, player, scene1, scene2, 
+let state, player, mainScene, scene2, 
   statue, temple, blo2, gameScene,
   playerContainer, scene1Container, scene2Container;
 
@@ -30,7 +27,7 @@ let app = new Application({
 mainCanvas.appendChild(app.view);
 
 loader
-  .add("scene1", "./img/scene1.png")
+  .add("mainScene", "./img/mainScene.png")
   .add("scene2", "./img/scene2.png")
   .add("playerAnimate", "./img/player/playerAnimate.png")
   .add("statueAnimate", "/img/statue/statueAnimate.png")
@@ -45,10 +42,10 @@ function setUp() {
   scene1Container = new Container();
   app.stage.addChild(scene1Container);
 
-  scene1 = new Sprite(resources.scene1.texture);
-  scene1.width = app.screen.width * 2;
-  scene1.height = app.screen.height * 3;
-  scene1Container.addChild(scene1);
+  mainScene = new Sprite(resources.mainScene.texture);
+  mainScene.width = app.screen.width * 2;
+  mainScene.height = app.screen.height * 3;
+  scene1Container.addChild(mainScene);
 
   scene2Container = new Container();
   app.stage.addChild(scene2Container);
@@ -124,6 +121,9 @@ function setUp() {
       player.vy = 0;
     }
   };
+  space.press = function(){
+    spaceFunction();
+  };
 
   state = play;
   app.ticker.add((delta) => gameLoop(delta));
@@ -140,50 +140,30 @@ function play(delta) {
   contain(player, { x: 0, y: 0, width: 2048, height: 1944 });
 
   if (scene1Container.visible) {
-    sceneLimit(player, playerContainer, scene1, scene1Container, app);
-    let space = keyboard(32);
+    sceneLimit(player, playerContainer, mainScene, scene1Container, app);
+    // let space = keyboard(32);
 
     //撞雕像
     if (hitTestRectangle(player, statue)) {
+      turnOnText("statue-text", `這裡是湯德章公園...  >>>`);
       if(!statue.playing){
         turnOnAnimate(statue, statueSheet.on);
       }
-
-      if(textBox.classList.contains("display-none")){
-        space.press = function() {
-          console.log(space.press)
-          text.innerText = `這裡是湯德章公園，注意雕像面向的位置...`;
-          textBox.classList.remove("display-none");
-        }
-      }else{
-        space.press = function() {
-          console.log(space.press)
-          textBox.classList.add("display-none");
-        }
-      }
-
     }else{
       turnOffAnimate(statue, statueSheet.off);
-      if(!textBox.classList.contains("display-none")){
-        textBox.classList.add("display-none");
-      }
+      turnOffText("statue-text");
     }
     //撞孔廟
     if(hitTestRectangle(player, temple)){
+      turnOnText("temple-text", `這裡是孔廟，位於南門路上，在清朝時期這裡被稱作檨仔林，孔廟在當時又名為「府文廟」。`)
       if(!temple.playing){
         turnOnAnimate(temple, templeSheet.on);
       }
-      // space.press = function(){
-      //   console.log(space.press)
-      //   scene1Container.visible = false;
-      //   scene2Container.visible = true;
-      //   state = goToScene2;
-      // }
-
     }else{
       turnOffAnimate(temple, templeSheet.off);
+      turnOffText("temple-text");
+      return;
     }
-    // console.log(space.press)
   }
 }
 
@@ -319,4 +299,22 @@ function createTemple(){
   temple.width = 512;
   temple.height = 486;
   scene1Container.addChild(temple);
+}
+
+function spaceFunction(){
+  if(hitTestRectangle(player, statue)){
+    if(!textBox.classList.contains("display-none")){
+      console.log(space.press)
+      text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的位置。`;
+      textBox.classList.add("display-none");
+      textBox.classList.remove("display-none");
+    }
+  }
+
+  if(hitTestRectangle(player, temple)){
+    console.log(space.press)
+    scene1Container.visible = false;
+    scene2Container.visible = true;
+    state = goToScene2;
+  }
 }

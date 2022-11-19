@@ -30,7 +30,9 @@ canvas {
   background-color: rgba(185, 174, 174, 0.5);
 }
 .text{
-  margin: 20px 30px;
+  margin: 10px 30px;
+  height: 80px;
+  overflow-y: auto;
 
   font-size: 18px;
   font-family: "微軟正黑體";

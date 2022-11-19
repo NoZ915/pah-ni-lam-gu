@@ -1,0 +1,19 @@
+{
+  "name": "pah-ni-lam-gu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoZ915/pah-ni-lam-gu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoZ915/pah-ni-lam-gu/issues"
+  },
+  "homepage": "https://github.com/NoZ915/pah-ni-lam-gu#readme"
+}

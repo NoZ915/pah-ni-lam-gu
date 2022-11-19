@@ -31,8 +31,8 @@ window.onload = function () {
     .add("mainScene", "./img/mainScene.png")
     .add("scene2", "./img/scene2.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
-    .add("statueAnimate", "/img/statue/statueAnimate.png")
-    .add("templeAnimate", "/img/temple/templeAnimate.png")
+    .add("statueAnimate", "./img/statue/statueAnimate.png")
+    .add("templeAnimate", "./img/temple/templeAnimate.png")
     .add("blo2", "./img/blo2.png")
     .load(setUp);
 

@@ -1,5 +1,5 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../game/helperFunction.js";
-import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText } from "../game/animateSwitch.js"
+import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../game/animateSwitch.js"
 
 let Application = PIXI.Application,
   Container = PIXI.Container,

@@ -180,6 +180,8 @@ window.onload = function () {
         scene2Container.visible = false;
         scene1Container.visible = true;
         state = play;
+        player.x = temple.x + temple.width / 2;
+        player.y = temple.y + temple.height;
         console.log("hit 2");
       }
     }

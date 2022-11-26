@@ -7,7 +7,8 @@ let Application = PIXI.Application,
   Sprite = PIXI.Sprite;
 let startBackgroundSheet = {};
 let startButtonSheet = {};
-let startBackground, startButton, lineQRcode;
+let helpButtonSheet = {};
+let startBackground, startButton, helpButton, lineQRcode;
 
 let mainCanvas = document.getElementById("main-canvas");
 
@@ -22,6 +23,7 @@ window.onload = function () {
   loader
     .add("start_backgroundAnimate", "./img/start/start_background.png")
     .add("start_buttonAnimate", "./img/start/start_button.png")
+    .add("help_buttonAnimate", "./img/start/help_button.png")
     // .add("lineQRcode", "./img/lineQRcode.jpg")
     .load(setup)
 
@@ -32,6 +34,9 @@ window.onload = function () {
     createStartButtonSheet();
     createStartButton();
 
+    createHelpButtonSheet();
+    createHelpButton();
+
     // lineQRcode = new Sprite(resources.lineQRcode.texture);
     // lineQRcode.width = 64;
     // lineQRcode.height = 64;
@@ -41,6 +46,8 @@ window.onload = function () {
     // app.stage.addChild(lineQRcode);
   }
 
+
+  //StartBackground
   function createStartBackgroundSheet() {
     let ssheet = PIXI.Texture.from(resources.start_backgroundAnimate.texture);
     let w = 1024;
@@ -65,6 +72,8 @@ window.onload = function () {
     startBackground.play();
   }
 
+
+  //StartButton
   function createStartButtonSheet() {
     let ssheet = PIXI.Texture.from(resources.start_buttonAnimate.texture);
     let w = 230;
@@ -83,8 +92,8 @@ window.onload = function () {
     startButton = new PIXI.extras.AnimatedSprite(startButtonSheet.off);
     startButton.animationSpeed = 0.1;
     startButton.loop = false;
-    startButton.x = app.screen.width * 0.5 - startButton.width / 2;
-    startButton.y = app.screen.width * 0.5 - startButton.height / 2;
+    startButton.x = app.screen.width * 0.5 - startButton.width / 2 + 150;
+    startButton.y = app.screen.height * 0.5 + 120;
 
     startButton.interactive = true;
     startButton.buttonMode = true;
@@ -111,4 +120,46 @@ window.onload = function () {
     app.stage.addChild(startButton);
     startButton.play();
   }
+
+
+  //HelpButton
+  function createHelpButtonSheet() {
+    let ssheet = PIXI.Texture.from(resources.help_buttonAnimate.texture);
+    let w = 230;
+    let h = 89;
+
+    helpButtonSheet["on"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 2 * h, w, h))
+    ]
+    helpButtonSheet["off"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h))
+    ]
+  }
+  function createHelpButton() {
+    helpButton = new PIXI.extras.AnimatedSprite(helpButtonSheet.off);
+    helpButton.animationSpeed = 0.1;
+    helpButton.loop = false;
+    helpButton.x = app.screen.width * 0.5 - helpButton.width / 2 - 150;
+    helpButton.y = app.screen.height * 0.5 + 120;
+
+    helpButton.interactive = true;
+    helpButton.buttonMode = true;
+    helpButton.pointerdown = function () {
+      window.location.href = "help.html"
+    }
+    helpButton.pointerover = function () {
+      helpButton.textures = helpButtonSheet.on;
+      helpButton.loop = true;
+      helpButton.play();
+    }
+    helpButton.pointerout = function () {
+      helpButton.loop = false;
+    }
+
+    app.stage.addChild(helpButton);
+    helpButton.play();
+  }
 }
+

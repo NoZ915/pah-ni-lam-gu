@@ -15,7 +15,7 @@ let space = keyboard(32);
 
 let mainCanvas = document.getElementById("main-canvas");
 
-let state, player, mainScene, scene2,
+let state, player, homeIcon, mainScene, scene2,
   statue, temple, blo2, gameScene,
   playerContainer, scene1Container, scene2Container;
 
@@ -31,6 +31,7 @@ window.onload = function () {
   loader
     .add("mainScene", "./img/mainScene.png")
     .add("scene2", "./img/scene2.png")
+    .add("homeIcon", "./img/home.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
     .add("templeAnimate", "./img/temple/templeAnimate.png")
@@ -48,6 +49,25 @@ window.onload = function () {
     mainScene.width = app.screen.width * 2;
     mainScene.height = app.screen.height * 3;
     scene1Container.addChild(mainScene);
+
+    homeIcon = new Sprite(resources.homeIcon.texture);
+    homeIcon.anchor.set(0.5)
+    homeIcon.x = 40;
+    homeIcon.y = 40;
+    app.stage.addChild(homeIcon);
+    homeIcon.interactive = true;
+    homeIcon.buttonMode = true;
+    homeIcon.pointerdown = function () {
+      window.location.href = "index.html"
+    }
+    homeIcon.pointerover = function () {
+      homeIcon.scale.x = 0.8;
+      homeIcon.scale.y = 0.8;
+    }
+    homeIcon.pointerout = function () {
+      homeIcon.scale.x = 1;
+      homeIcon.scale.y = 1;
+    }
 
     scene2Container = new Container();
     app.stage.addChild(scene2Container);

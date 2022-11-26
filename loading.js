@@ -1,5 +1,5 @@
 
-export function showLoadingPage(mainApp) {
+export function showLoadingPage(mainApp, func) {
   let loader = PIXI.loader,
     resources = PIXI.loader.resources;
   let loading;
@@ -20,8 +20,9 @@ export function showLoadingPage(mainApp) {
         clearInterval(timer);
         loading.destroy();
         loader.reset();
+        func();
       }
-    }, 15)
+    }, 20)
   }
 
   function createloadingSheet() {

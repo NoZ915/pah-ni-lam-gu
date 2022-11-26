@@ -1,3 +1,5 @@
+import { showLoadingPage } from "../loading.js";
+
 let Application = PIXI.Application,
   Container = PIXI.Container,
   loader = PIXI.loader,
@@ -5,7 +7,7 @@ let Application = PIXI.Application,
   Sprite = PIXI.Sprite;
 let startBackgroundSheet = {};
 let startButtonSheet = {};
-let startBackground, startButton;
+let startBackground, startButton, lineQRcode;
 
 let mainCanvas = document.getElementById("main-canvas");
 
@@ -20,6 +22,7 @@ window.onload = function () {
   loader
     .add("start_backgroundAnimate", "./img/start/start_background.png")
     .add("start_buttonAnimate", "./img/start/start_button.png")
+    .add("lineQRcode", "./img/lineQRcode.jpg")
     .load(setup)
 
   function setup() {
@@ -28,6 +31,9 @@ window.onload = function () {
 
     createStartButtonSheet();
     createStartButton();
+
+    lineQRcode = new Sprite(resources.lineQRcode.texture);
+    app.stage.addChild(lineQRcode);
 
     app.ticker.add((delta) => gameLoop(delta));
   }
@@ -84,7 +90,9 @@ window.onload = function () {
     startButton.interactive = true;
     startButton.buttonMode = true;
     startButton.pointerdown = function () {
-      window.location.href = "main.html";
+      showLoadingPage(app, () => {
+        window.location.href = "main.html"
+      });
     }
     startButton.pointerover = function () {
       startButton.textures = startButtonSheet.on;

@@ -316,12 +316,12 @@ window.onload = function () {
     }
 
     if (hitTestRectangle(player, temple)) {
-      console.log(space.press)
-      showLoadingPage(app);
-      turnOffText("temple-text");
-      scene1Container.visible = false;
-      scene2Container.visible = true;
-      state = goToScene2;
+      showLoadingPage(app, () => {
+        turnOffText("temple-text");
+        scene1Container.visible = false;
+        scene2Container.visible = true;
+        state = goToScene2;
+      });
     }
   }
 }

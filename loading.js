@@ -17,10 +17,10 @@ export function showLoadingPage(mainApp, func) {
       percent += 1;
       console.log(percent)
       if (percent > 100) {
+        func();
         clearInterval(timer);
         loading.destroy();
         loader.reset();
-        func();
       }
     }, 20)
   }

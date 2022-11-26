@@ -316,9 +316,9 @@ window.onload = function () {
     }
 
     if (hitTestRectangle(player, temple)) {
+      scene1Container.visible = false;
+      turnOffText("temple-text");
       showLoadingPage(app, () => {
-        turnOffText("temple-text");
-        scene1Container.visible = false;
         scene2Container.visible = true;
         state = goToScene2;
       });

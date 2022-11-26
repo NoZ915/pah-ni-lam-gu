@@ -22,7 +22,7 @@ window.onload = function () {
   loader
     .add("start_backgroundAnimate", "./img/start/start_background.png")
     .add("start_buttonAnimate", "./img/start/start_button.png")
-    .add("lineQRcode", "./img/lineQRcode.jpg")
+    // .add("lineQRcode", "./img/lineQRcode.jpg")
     .load(setup)
 
   function setup() {
@@ -32,14 +32,13 @@ window.onload = function () {
     createStartButtonSheet();
     createStartButton();
 
-    lineQRcode = new Sprite(resources.lineQRcode.texture);
-    app.stage.addChild(lineQRcode);
+    // lineQRcode = new Sprite(resources.lineQRcode.texture);
+    // lineQRcode.width = 64;
+    // lineQRcode.height = 64;
+    // lineQRcode.x = app.screen.width * 0.5 - lineQRcode.width / 2;
+    // lineQRcode.y = startButton.y - lineQRcode.height - 20;
 
-    app.ticker.add((delta) => gameLoop(delta));
-  }
-
-  function gameLoop() {
-
+    // app.stage.addChild(lineQRcode);
   }
 
   function createStartBackgroundSheet() {
@@ -91,6 +90,7 @@ window.onload = function () {
     startButton.buttonMode = true;
     startButton.pointerdown = function () {
       showLoadingPage(app, () => {
+        app.stage.visible = false;
         window.location.href = "main.html"
       });
     }

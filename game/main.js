@@ -1,5 +1,6 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../game/helperFunction.js";
-import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../game/animateSwitch.js"
+import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../game/animateSwitch.js";
+import { showLoadingPage } from "../loading.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -316,6 +317,7 @@ window.onload = function () {
 
     if (hitTestRectangle(player, temple)) {
       console.log(space.press)
+      showLoadingPage(app);
       turnOffText("temple-text");
       scene1Container.visible = false;
       scene2Container.visible = true;

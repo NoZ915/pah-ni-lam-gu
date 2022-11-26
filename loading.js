@@ -1,4 +1,3 @@
-
 export function showLoadingPage(mainApp, func) {
   let loader = PIXI.loader,
     resources = PIXI.loader.resources;

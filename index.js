@@ -1,4 +1,4 @@
-import { showLoadingPage } from "../loading.js";
+import { showLoadingPage } from "../game/loading.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,

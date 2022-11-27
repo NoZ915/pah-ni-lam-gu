@@ -1,4 +1,4 @@
-import { showLoadingPage } from "../game/loading.js";
+import { showLoadingPage } from "../module/loading.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -36,16 +36,7 @@ window.onload = function () {
 
     createHelpButtonSheet();
     createHelpButton();
-
-    // lineQRcode = new Sprite(resources.lineQRcode.texture);
-    // lineQRcode.width = 64;
-    // lineQRcode.height = 64;
-    // lineQRcode.x = app.screen.width * 0.5 - lineQRcode.width / 2;
-    // lineQRcode.y = startButton.y - lineQRcode.height - 20;
-
-    // app.stage.addChild(lineQRcode);
   }
-
 
   //StartBackground
   function createStartBackgroundSheet() {
@@ -116,6 +107,7 @@ window.onload = function () {
       startButton.loop = false;
       startBackground.loop = false;
     }
+
 
     app.stage.addChild(startButton);
     startButton.play();

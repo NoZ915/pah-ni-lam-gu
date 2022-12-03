@@ -35,7 +35,7 @@ window.onload = function () {
       fontSize: 23,
       fill: "white"
     });
-    message = new Text(`似乎可以透過這個QRcode聯繫到這張卡片的主人...\n試著聯繫看看，對方若沒動靜，\n或許可以主動傳個「嗨」打聲招呼。`, style);
+    message = new Text(`似乎可以透過這個QRcode聯繫到這張卡片的主人...\n試著聯繫看看，我也不清楚對方是否會有動靜，\n或許可以傳個卡片上的「編號」讓對方知道您的來歷？`, style);
     message.x = app.screen.width / 2 - message.width / 2;
     message.y = LuHingIDcard.y + LuHingIDcard.height + 30;
     app.stage.addChild(message);

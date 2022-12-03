@@ -99,9 +99,11 @@ window.onload = function () {
       right = keyboard(39),
       down = keyboard(40);
 
+    let speed = 25;
+
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);
-      player.vx = -5;
+      player.vx = -speed;
       player.vy = 0;
     };
     left.release = function () {
@@ -112,7 +114,7 @@ window.onload = function () {
     };
     up.press = function () {
       turnOnAnimate(player, playerSheet.walkUp);
-      player.vy = -5;
+      player.vy = -speed;
       player.vx = 0;
     };
     up.release = function () {
@@ -123,7 +125,7 @@ window.onload = function () {
     };
     right.press = function () {
       turnOnAnimate(player, playerSheet.walkRight);
-      player.vx = 5;
+      player.vx = speed;
       player.vy = 0;
     };
     right.release = function () {
@@ -134,7 +136,7 @@ window.onload = function () {
     };
     down.press = function () {
       turnOnAnimate(player, playerSheet.walkDown);
-      player.vy = 5;
+      player.vy = speed;
       player.vx = 0;
     };
     down.release = function () {
@@ -208,6 +210,7 @@ window.onload = function () {
     }
   }
 
+  //player
   function createPlayerSheet() {
     let ssheet = PIXI.Texture.from(resources.playerAnimate.texture);
     let w = 100;
@@ -271,6 +274,7 @@ window.onload = function () {
     player.play();
   }
 
+  //statue
   function createStatueSheet() {
     let ssheet = PIXI.Texture.from(resources.statueAnimate.texture);
     let w = 295;
@@ -290,14 +294,15 @@ window.onload = function () {
     statue = new PIXI.extras.AnimatedSprite(statueSheet.off);
     statue.animationSpeed = 0.1;
     statue.loop = false;
-    statue.x = app.screen.width * 0.5 + 150;
-    statue.y = app.screen.height * 0.5;
+    statue.x = mainScene.width - statue.width - 130;
+    statue.y = mainScene.height - statue.height - 190;
     statue.width = 295;
     statue.height = 486;
     scene1Container.addChild(statue);
     statue.play();
   }
 
+  //temple
   function createTempleSheet() {
     let ssheet = PIXI.Texture.from(resources.templeAnimate.texture);
     let w = 512;
@@ -324,6 +329,10 @@ window.onload = function () {
     temple.height = 486;
     scene1Container.addChild(temple);
   }
+
+
+
+
 
   function spaceFunction() {
     if (hitTestRectangle(player, statue)) {

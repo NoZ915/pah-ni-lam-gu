@@ -1,7 +1,7 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helperFunction.js";
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
-import { showTempleScene } from "../module/templeSceneManager.js";
+
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -21,6 +21,8 @@ let state, player, homeIcon,
   statue, temple, blo2, gameScene,
   playerContainer, MainSceneContainer, templeSceneContainer;
 
+let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, Wu;
+
 window.onload = function () {
   let app = new Application({
     width: 1024,
@@ -38,6 +40,17 @@ window.onload = function () {
     .add("statueAnimate", "./img/statue/statueAnimate.png")
     .add("templeAnimate", "./img/temple/templeAnimate.png")
     .add("blo2", "./img/blo2.png")
+    .add("DaChengFang", "./img/templeScene/DaChengFang.png")
+    .add("PanChi", "./img/templeScene/PanChi.png")
+    .add("LingXingMen", "./img/templeScene/LingXingMen.png")
+    .add("YiLu", "./img/templeScene/YiLu.png")
+    .add("LiMen", "./img/templeScene/LiMen.png")
+    .add("DaChengDian", "./img/templeScene/DaChengDian.png")
+    .add("MingHuanCi", "./img/templeScene/MingHuanCi.png")
+    .add("XiaoZiCi", "./img/templeScene/XiaoZiCi.png")
+    .add("RuDeZhiMen", "./img/templeScene/RuDeZhiMen.png")
+    .add("WenChangGe", "./img/templeScene/WenChangGe.png")
+    .add("Wu", "./img/templeScene/Wu.png")
     .load(setUp);
 
   function setUp() {
@@ -77,6 +90,20 @@ window.onload = function () {
     templeMap.width = 3840;
     templeMap.height = 5040;
     templeSceneContainer.addChild(templeMap);
+    createWestDaChengFang();
+    createEastDaChengFang();
+    createPanChi();
+    createLingXingMen();
+    createYiLu();
+    createLiMen();
+    createMingHuanCi();
+    createXiaoZiCi();
+    createDaChengDian();
+    createRuDeZhiMen();
+    createWenChangGe();
+    createWestWu();
+    createEastWu();
+    templeSceneContainer.visible = false;
 
     blo2 = new Sprite(resources.blo2.texture);
     blo2.x = app.screen.width * 0.5 + 180;
@@ -84,7 +111,6 @@ window.onload = function () {
     blo2.width = 32;
     blo2.height = 32;
     templeSceneContainer.addChild(blo2);
-    templeSceneContainer.visible = false;
 
     createStatueSheet();
     createStatue();
@@ -197,7 +223,15 @@ window.onload = function () {
     player.y += player.vy;
 
     contain(player, { x: 0, y: 0, width: 3840, height: 5040 });
+
     sceneLimit(player, playerContainer, templeMap, templeSceneContainer, app);
+
+    //撞西大成坊
+    if (hitTestRectangle(player, WestDaChengFang)) {
+      turnOnText("WestDaChengFang-text", `這裡是西大成坊`);
+    } else {
+      turnOffText("WestDaChengFang-text");
+    }
 
     // if (templeSceneContainer.visible) {
     //   showTempleScene();
@@ -213,6 +247,29 @@ window.onload = function () {
     // }
   }
 
+  // 按下空白鍵會執行的內容
+  function spaceFunction() {
+    if (hitTestRectangle(player, statue)) {
+      if (!textBox.classList.contains("display-none")) {
+        console.log(space.press)
+        text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的位置。`;
+        textBox.classList.add("display-none");
+        textBox.classList.remove("display-none");
+      }
+    }
+
+    if (hitTestRectangle(player, temple)) {
+      MainSceneContainer.visible = false;
+      turnOffText("temple-text");
+      showLoadingPage(app, () => {
+        templeSceneContainer.visible = true;
+        // templeSceneManager.showTempleScene(templeSceneContainer, player);
+        state = goToTempleScene;
+      });
+    }
+  }
+
+  //-----建立Sprites-----
   //player
   function createPlayerSheet() {
     let ssheet = PIXI.Texture.from(resources.playerAnimate.texture);
@@ -332,29 +389,83 @@ window.onload = function () {
     temple.height = 486;
     MainSceneContainer.addChild(temple);
   }
-
-
-
-
-
-  function spaceFunction() {
-    if (hitTestRectangle(player, statue)) {
-      if (!textBox.classList.contains("display-none")) {
-        console.log(space.press)
-        text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的位置。`;
-        textBox.classList.add("display-none");
-        textBox.classList.remove("display-none");
-      }
-    }
-
-    if (hitTestRectangle(player, temple)) {
-      MainSceneContainer.visible = false;
-      turnOffText("temple-text");
-      showLoadingPage(app, () => {
-        templeSceneContainer.visible = true;
-        showTempleScene(templeSceneContainer);
-        state = goToTempleScene;
-      });
-    }
+  //temple內部
+  function createWestDaChengFang() {
+    WestDaChengFang = new Sprite(resources.DaChengFang.texture);
+    WestDaChengFang.x = 35;
+    WestDaChengFang.y = 3350;
+    templeSceneContainer.addChild(WestDaChengFang);
+  }
+  function createEastDaChengFang() {
+    EastDaChengFang = new Sprite(resources.DaChengFang.texture);
+    EastDaChengFang.x = 3325;
+    EastDaChengFang.y = 3350;
+    templeSceneContainer.addChild(EastDaChengFang);
+  }
+  function createPanChi() {
+    PanChi = new Sprite(resources.PanChi.texture);
+    PanChi.x = 1220;
+    PanChi.y = 4080;
+    templeSceneContainer.addChild(PanChi);
+  }
+  function createLingXingMen() {
+    LingXingMen = new Sprite(resources.LingXingMen.texture);
+    LingXingMen.x = 1265;
+    LingXingMen.y = 3480;
+    templeSceneContainer.addChild(LingXingMen);
+  }
+  function createYiLu() {
+    YiLu = new Sprite(resources.YiLu.texture);
+    YiLu.x = 700;
+    YiLu.y = 2620;
+    templeSceneContainer.addChild(YiLu);
+  }
+  function createLiMen() {
+    LiMen = new Sprite(resources.LiMen.texture);
+    LiMen.x = 1970;
+    LiMen.y = 2620;
+    templeSceneContainer.addChild(LiMen);
+  }
+  function createDaChengDian() {
+    DaChengDian = new Sprite(resources.DaChengDian.texture);
+    DaChengDian.x = 1050;
+    DaChengDian.y = 900;
+    templeSceneContainer.addChild(DaChengDian);
+  }
+  function createMingHuanCi() {
+    MingHuanCi = new Sprite(resources.MingHuanCi.texture);
+    MingHuanCi.x = 1880;
+    MingHuanCi.y = 1800;
+    templeSceneContainer.addChild(MingHuanCi);
+  }
+  function createXiaoZiCi() {
+    XiaoZiCi = new Sprite(resources.XiaoZiCi.texture);
+    XiaoZiCi.x = 560;
+    XiaoZiCi.y = 1800;
+    templeSceneContainer.addChild(XiaoZiCi);
+  }
+  function createRuDeZhiMen() {
+    RuDeZhiMen = new Sprite(resources.RuDeZhiMen.texture);
+    RuDeZhiMen.x = 2400;
+    RuDeZhiMen.y = 1820;
+    templeSceneContainer.addChild(RuDeZhiMen);
+  }
+  function createWenChangGe() {
+    WenChangGe = new Sprite(resources.WenChangGe.texture);
+    WenChangGe.x = 2925;
+    WenChangGe.y = 250;
+    templeSceneContainer.addChild(WenChangGe);
+  }
+  function createWestWu() {
+    Wu = new Sprite(resources.Wu.texture);
+    Wu.x = 700;
+    Wu.y = 1370;
+    templeSceneContainer.addChild(Wu);
+  }
+  function createEastWu() {
+    Wu = new Sprite(resources.Wu.texture);
+    Wu.x = 1985;
+    Wu.y = 1370;
+    templeSceneContainer.addChild(Wu);
   }
 }

@@ -21,7 +21,6 @@ export function showLoadingPage(mainApp, func) {
         loading.destroy();
         loader.reset();
         func();
-        return percent;
       }
     }, 2)
   }

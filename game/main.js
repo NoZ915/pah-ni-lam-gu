@@ -1,6 +1,7 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helperFunction.js";
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
+import { showTempleScene } from "../module/templeSceneManager.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -15,9 +16,10 @@ let space = keyboard(32);
 
 let mainCanvas = document.getElementById("main-canvas");
 
-let state, player, homeIcon, mainScene, scene2,
+let state, player, homeIcon,
+  mainScene, templeMap,
   statue, temple, blo2, gameScene,
-  playerContainer, scene1Container, scene2Container;
+  playerContainer, MainSceneContainer, templeSceneContainer;
 
 window.onload = function () {
   let app = new Application({
@@ -29,8 +31,8 @@ window.onload = function () {
   mainCanvas.appendChild(app.view);
 
   loader
-    .add("mainScene", "./img/mainScene.png")
-    .add("scene2", "./img/scene2.png")
+    .add("mainScene", "./img/mainScene.jpg")
+    .add("templeMap", "./img/templeScene/templeMap.jpg")
     .add("homeIcon", "./img/home.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
@@ -42,13 +44,13 @@ window.onload = function () {
     gameScene = new Container();
     app.stage.addChild(gameScene);
 
-    scene1Container = new Container();
-    app.stage.addChild(scene1Container);
+    MainSceneContainer = new Container();
+    app.stage.addChild(MainSceneContainer);
 
     mainScene = new Sprite(resources.mainScene.texture);
     mainScene.width = app.screen.width * 2;
     mainScene.height = app.screen.height * 3;
-    scene1Container.addChild(mainScene);
+    MainSceneContainer.addChild(mainScene);
 
     homeIcon = new Sprite(resources.homeIcon.texture);
     homeIcon.anchor.set(0.5)
@@ -69,20 +71,20 @@ window.onload = function () {
       homeIcon.scale.y = 1;
     }
 
-    scene2Container = new Container();
-    app.stage.addChild(scene2Container);
+    templeSceneContainer = new Container();
+    app.stage.addChild(templeSceneContainer);
+    templeMap = new Sprite(resources.templeMap.texture);
+    templeMap.width = 3840;
+    templeMap.height = 5040;
+    templeSceneContainer.addChild(templeMap);
 
-    scene2 = new Sprite(resources.scene2.texture);
-    scene2.width = app.screen.width * 4;
-    scene2.height = app.screen.height * 4;
-    scene2Container.addChild(scene2);
     blo2 = new Sprite(resources.blo2.texture);
     blo2.x = app.screen.width * 0.5 + 180;
     blo2.y = app.screen.height * 0.5;
     blo2.width = 32;
     blo2.height = 32;
-    scene2Container.addChild(blo2);
-    scene2Container.visible = false;
+    templeSceneContainer.addChild(blo2);
+    templeSceneContainer.visible = false;
 
     createStatueSheet();
     createStatue();
@@ -163,13 +165,12 @@ window.onload = function () {
 
     contain(player, { x: 0, y: 0, width: 2048, height: 1944 });
 
-    if (scene1Container.visible) {
-      sceneLimit(player, playerContainer, mainScene, scene1Container, app);
-      // let space = keyboard(32);
+    if (MainSceneContainer.visible) {
+      sceneLimit(player, playerContainer, mainScene, MainSceneContainer, app);
 
       //撞雕像
       if (hitTestRectangle(player, statue)) {
-        turnOnText("statue-text", `這裡是湯德章公園...  >>>`);
+        turnOnText("statue-text", `這裡是湯德章公園...  >>> `);
         if (!statue.playing) {
           turnOnAnimate(statue, statueSheet.on);
         }
@@ -191,23 +192,25 @@ window.onload = function () {
     }
   }
 
-  function goToScene2() {
+  function goToTempleScene() {
     player.x += player.vx;
     player.y += player.vy;
 
-    contain(player, { x: 0, y: 0, width: 2048, height: 1944 });
+    contain(player, { x: 0, y: 0, width: 3840, height: 5040 });
+    sceneLimit(player, playerContainer, templeMap, templeSceneContainer, app);
 
-    if (scene2Container.visible) {
-      sceneLimit(player, playerContainer, scene2, scene2Container, app);
-      if (hitTestRectangle(player, blo2)) {
-        scene2Container.visible = false;
-        scene1Container.visible = true;
-        state = play;
-        player.x = temple.x + temple.width / 2;
-        player.y = temple.y + temple.height;
-        console.log("hit 2");
-      }
-    }
+    // if (templeSceneContainer.visible) {
+    //   showTempleScene();
+    //   sceneLimit(player, playerContainer, scene2, templeSceneContainer, app);
+    //   if (hitTestRectangle(player, blo2)) {
+    //     templeSceneContainer.visible = false;
+    //     MainSceneContainer.visible = true;
+    //     state = play;
+    //     player.x = temple.x + temple.width / 2;
+    //     player.y = temple.y + temple.height;
+    //     console.log("hit 2");
+    //   }
+    // }
   }
 
   //player
@@ -298,7 +301,7 @@ window.onload = function () {
     statue.y = mainScene.height - statue.height - 190;
     statue.width = 295;
     statue.height = 486;
-    scene1Container.addChild(statue);
+    MainSceneContainer.addChild(statue);
     statue.play();
   }
 
@@ -327,7 +330,7 @@ window.onload = function () {
     temple.y = 900;
     temple.width = 512;
     temple.height = 486;
-    scene1Container.addChild(temple);
+    MainSceneContainer.addChild(temple);
   }
 
 
@@ -345,11 +348,12 @@ window.onload = function () {
     }
 
     if (hitTestRectangle(player, temple)) {
-      scene1Container.visible = false;
+      MainSceneContainer.visible = false;
       turnOffText("temple-text");
       showLoadingPage(app, () => {
-        scene2Container.visible = true;
-        state = goToScene2;
+        templeSceneContainer.visible = true;
+        showTempleScene(templeSceneContainer);
+        state = goToTempleScene;
       });
     }
   }

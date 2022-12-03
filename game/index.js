@@ -24,7 +24,6 @@ window.onload = function () {
     .add("start_backgroundAnimate", "./img/start/start_background.png")
     .add("start_buttonAnimate", "./img/start/start_button.png")
     .add("help_buttonAnimate", "./img/start/help_button.png")
-    // .add("lineQRcode", "./img/lineQRcode.jpg")
     .load(setup)
 
   function setup() {

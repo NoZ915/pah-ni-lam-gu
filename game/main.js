@@ -262,8 +262,9 @@ window.onload = function () {
       MainSceneContainer.visible = false;
       turnOffText("temple-text");
       showLoadingPage(app, () => {
+        player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
+        player.y = EastDaChengFang.y + EastDaChengFang.height;
         templeSceneContainer.visible = true;
-        // templeSceneManager.showTempleScene(templeSceneContainer, player);
         state = goToTempleScene;
       });
     }

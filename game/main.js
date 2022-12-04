@@ -127,7 +127,7 @@ window.onload = function () {
       right = keyboard(39),
       down = keyboard(40);
 
-    let speed = 25;
+    let speed = 5;
 
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);
@@ -213,7 +213,9 @@ window.onload = function () {
       } else {
         turnOffAnimate(temple, templeSheet.off);
         turnOffText("temple-text");
-        return;
+        if (textBox.classList.contains("goToTempleConfirm")) {
+          turnOffText("goToTempleConfirm");
+        }
       }
     }
   }
@@ -228,23 +230,29 @@ window.onload = function () {
 
     //撞西大成坊
     if (hitTestRectangle(player, WestDaChengFang)) {
-      turnOnText("WestDaChengFang-text", `這裡是西大成坊`);
+      turnOnText("WestDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是西大成坊，若從這裡出去會看見忠義國小。`);
     } else {
       turnOffText("WestDaChengFang-text");
+      if (textBox.classList.contains("leaveWestDaChengFangConfirm")) {
+        turnOffText("leaveWestDaChengFangConfirm");
+      }
+    }
+    //撞東大成坊
+    if (hitTestRectangle(player, EastDaChengFang)) {
+      turnOnText("EastDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是東大成坊，若從這裡出去會來到南門路，這裡也是目前孔廟的總入口。`);
+    } else {
+      turnOffText("EastDaChengFang-text");
+      if (textBox.classList.contains("leaveEastDaChengFangConfirm")) {
+        turnOffText("leaveEastDaChengFangConfirm");
+      }
+    }
+    //撞櫺星門
+    if (hitTestRectangle(player, LingXingMen)) {
+      turnOnText("LingXingMen-text", `這裡是櫺星門，在2013年因為大成門前面一棵百年榕樹病枯倒塌而意外重見天日。`);
+    } else {
+      turnOffText("LingXingMen-text");
     }
 
-    // if (templeSceneContainer.visible) {
-    //   showTempleScene();
-    //   sceneLimit(player, playerContainer, scene2, templeSceneContainer, app);
-    //   if (hitTestRectangle(player, blo2)) {
-    //     templeSceneContainer.visible = false;
-    //     MainSceneContainer.visible = true;
-    //     state = play;
-    //     player.x = temple.x + temple.width / 2;
-    //     player.y = temple.y + temple.height;
-    //     console.log("hit 2");
-    //   }
-    // }
   }
 
   // 按下空白鍵會執行的內容
@@ -257,16 +265,53 @@ window.onload = function () {
         textBox.classList.remove("display-none");
       }
     }
-
     if (hitTestRectangle(player, temple)) {
-      MainSceneContainer.visible = false;
-      turnOffText("temple-text");
-      showLoadingPage(app, () => {
-        player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
-        player.y = EastDaChengFang.y + EastDaChengFang.height;
-        templeSceneContainer.visible = true;
+      if (textBox.classList.contains("temple-text")) {
+        text.innerText = `是否進入孔廟？`;
+        textBox.classList.add("goToTempleConfirm");
+        textBox.classList.remove("temple-text");
+      } else if (textBox.classList.contains("goToTempleConfirm")) {
         state = goToTempleScene;
-      });
+        turnOffText("goToTempleConfirm");
+        MainSceneContainer.visible = false;
+        showLoadingPage(app, () => {
+          player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
+          player.y = EastDaChengFang.y + EastDaChengFang.height;
+          templeSceneContainer.visible = true;
+        });
+      }
+    }
+    if (hitTestRectangle(player, WestDaChengFang)) {
+      if (textBox.classList.contains("WestDaChengFang-text")) {
+        text.innerText = `是否離開孔廟？`;
+        textBox.classList.add("leaveWestDaChengFangConfirm");
+        textBox.classList.remove("WestDaChengFang-text");
+      } else if (textBox.classList.contains("leaveWestDaChengFangConfirm")) {
+        state = play;
+        turnOffText("leaveWestDaChengFangConfirm");
+        templeSceneContainer.visible = false;
+        showLoadingPage(app, () => {
+          player.x = temple.x + temple.width / 2;
+          player.y = temple.y - 20;
+          MainSceneContainer.visible = true;
+        });
+      }
+    }
+    if (hitTestRectangle(player, EastDaChengFang)) {
+      if (textBox.classList.contains("EastDaChengFang-text")) {
+        text.innerText = `是否離開孔廟？`;
+        textBox.classList.add("leaveEastDaChengFangConfirm");
+        textBox.classList.remove("EastDaChengFang-text");
+      } else if (textBox.classList.contains("leaveEastDaChengFangConfirm")) {
+        state = play;
+        turnOffText("leaveEastDaChengFangConfirm");
+        templeSceneContainer.visible = false;
+        showLoadingPage(app, () => {
+          player.x = temple.x + temple.width / 2;
+          player.y = temple.y - 20;
+          MainSceneContainer.visible = true;
+        });
+      }
     }
   }
 
@@ -384,10 +429,8 @@ window.onload = function () {
     temple = new PIXI.extras.AnimatedSprite(templeSheet.off);
     temple.animationSpeed = 0.1;
     temple.loop = false;
-    temple.x = 1000;
-    temple.y = 900;
-    temple.width = 512;
-    temple.height = 486;
+    temple.x = 400;
+    temple.y = 1100;
     MainSceneContainer.addChild(temple);
   }
   //temple內部

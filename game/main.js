@@ -206,7 +206,7 @@ window.onload = function () {
       }
       //撞孔廟
       if (hitTestRectangle(player, temple)) {
-        turnOnText("temple-text", `這裡是孔廟，位於南門路上，在清朝時期這裡被稱作檨仔林，孔廟在當時又名為府文廟。`)
+        turnOnText("temple-text", `這裡是孔廟，位於南門路上，在清朝時期這裡被稱作檨仔林，孔廟在當時又名為府文廟。>>>`)
         if (!temple.playing) {
           turnOnAnimate(temple, templeSheet.on);
         }
@@ -335,7 +335,7 @@ window.onload = function () {
         MainSceneContainer.visible = false;
         showLoadingPage(app, () => {
           player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
-          player.y = EastDaChengFang.y + EastDaChengFang.height;
+          player.y = EastDaChengFang.y + EastDaChengFang.height + 20;
           templeSceneContainer.visible = true;
         });
       }

@@ -21,7 +21,7 @@ let state, player, homeIcon,
   statue, temple, blo2, gameScene,
   playerContainer, MainSceneContainer, templeSceneContainer;
 
-let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, Wu;
+let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
 
 window.onload = function () {
   let app = new Application({
@@ -127,7 +127,7 @@ window.onload = function () {
       right = keyboard(39),
       down = keyboard(40);
 
-    let speed = 5;
+    let speed = 25;
 
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);
@@ -206,7 +206,7 @@ window.onload = function () {
       }
       //撞孔廟
       if (hitTestRectangle(player, temple)) {
-        turnOnText("temple-text", `這裡是孔廟，位於南門路上，在清朝時期這裡被稱作檨仔林，孔廟在當時又名為「府文廟」。`)
+        turnOnText("temple-text", `這裡是孔廟，位於南門路上，在清朝時期這裡被稱作檨仔林，孔廟在當時又名為府文廟。`)
         if (!temple.playing) {
           turnOnAnimate(temple, templeSheet.on);
         }
@@ -230,7 +230,7 @@ window.onload = function () {
 
     //撞西大成坊
     if (hitTestRectangle(player, WestDaChengFang)) {
-      turnOnText("WestDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是西大成坊，若從這裡出去會看見忠義國小。`);
+      turnOnText("WestDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是西大成坊，若從這裡出去會看見忠義國小。>>>`);
     } else {
       turnOffText("WestDaChengFang-text");
       if (textBox.classList.contains("leaveWestDaChengFangConfirm")) {
@@ -239,7 +239,7 @@ window.onload = function () {
     }
     //撞東大成坊
     if (hitTestRectangle(player, EastDaChengFang)) {
-      turnOnText("EastDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是東大成坊，若從這裡出去會來到南門路，這裡也是目前孔廟的總入口。`);
+      turnOnText("EastDaChengFang-text", `大成坊是孔子廟中三處以「大成」為命名的空間之一，分成東西兩座，這裡是東大成坊，若從這裡出去會來到南門路，這裡也是目前孔廟的總入口。>>>`);
     } else {
       turnOffText("EastDaChengFang-text");
       if (textBox.classList.contains("leaveEastDaChengFangConfirm")) {
@@ -252,7 +252,66 @@ window.onload = function () {
     } else {
       turnOffText("LingXingMen-text");
     }
-
+    //撞泮池
+    if (hitTestRectangle(player, PanChi)) {
+      turnOnText("PanChi-text", `孔廟的前方通常會設一座半圓形的水池，稱為「泮」池，象徵孔廟與學校相結合的概念。你也可以試著像古時的秀才們一樣「遊泮」哦`);
+    } else {
+      turnOffText("PanChi-text");
+    }
+    //撞義路
+    if (hitTestRectangle(player, YiLu)) {
+      turnOnText("YiLu-text", `進入孔廟的殿堂必須經過禮門、義路兩個路徑，表示請求孔子之道，必須遵循禮義！而這裡就是義路。`);
+    } else {
+      turnOffText("YiLu-text");
+    }
+    //撞禮門
+    if (hitTestRectangle(player, LiMen)) {
+      turnOnText("LiMen-text", `進入孔廟的殿堂必須經過禮門、義路兩個路徑，表示請求孔子之道，必須遵循禮義！而這裡就是禮門。`);
+    } else {
+      turnOffText("LiMen-text");
+    }
+    //撞孝子祠
+    if (hitTestRectangle(player, XiaoZiCi)) {
+      turnOnText("XiaoZiCi-text", `這裡是節孝祠與「孝子祠」，是奉祀節孝婦女與孝子之祠堂，事實上這裡在清朝時可是鄉賢祠！至於何時所改建的，說法不一。而目前節孝祠孝子祠內供奉有節孝婦女二百多人，孝子則只有侯瑞珍一人，可見要成為公認的孝子是很難的事。 `);
+    } else {
+      turnOffText("XiaoZiCi-text");
+    }
+    //撞名宦祠
+    if (hitTestRectangle(player, MingHuanCi)) {
+      turnOnText("MingHuanCi-text", `這裡是名宦祠與鄉賢祠，是孔子廟為了崇德報功，供奉祭禮朝遷功臣及受地方尊崇士紳之祠堂。 事實上清朝時期這裡只是名宦祠，是直到後來鄉賢祠被改建為節孝祠與孝子祠，鄉賢祠便與名宦祠合而為一。`);
+    } else {
+      turnOffText("MingHuanCi-text");
+    }
+    //撞東廡
+    if (hitTestRectangle(player, EastWu)) {
+      turnOnText("EastWu-text", `大成殿兩側廟房之南段分別有為東廡與西廡，是孔子廟中供奉先賢先儒之處。而這裡是東廡。目前東廡中有先賢四十一位先儒三十九位，其中包括有先賢周敦頤、程顥、先儒顧炎武、董仲舒、韓愈、范仲淹、文天祥等人。`);
+    } else {
+      turnOffText("EastWu-text");
+    }
+    //撞西廡
+    if (hitTestRectangle(player, WestWu)) {
+      turnOnText("WestWu-text", `大成殿兩側廟房之南段分別有為東廡與西廡，是孔子廟中供奉先賢先儒之處。而這裡是西廡。目前西廡中有先賢四十位先儒三十八位，其中包括有先賢張載、邵雍、先儒諸葛亮、歐陽修、司馬光、黃宗羲等人。`);
+    } else {
+      turnOffText("WestWu-text");
+    }
+    //撞入德之門
+    if (hitTestRectangle(player, RuDeZhiMen)) {
+      turnOnText("RuDeZhiMen-text", `這裡是入德之門，是進入明倫堂空間之象徵性入口。門口兩側分別提有聖域、賢關，過去由各地選出的學子，必須經過此門才得入內，表明了學子若要成為聖賢，一定要從修養品行開始。`);
+    } else {
+      turnOffText("RuDeZhiMen-text");
+    }
+    //撞大成殿
+    if (hitTestRectangle(player, DaChengDian)) {
+      turnOnText("DaChengDian-text", `這裡是孔子廟建築組群中層級最高的建築--大成殿。 大成殿前有露台，是釋奠禮祭孔時，表演佾舞之場所。露台正面有御路，在大清會典圖卷中則稱之為螭陛。`);
+    } else {
+      turnOffText("DaChengDian-text");
+    }
+    //撞文昌閣
+    if (hitTestRectangle(player, WenChangGe)) {
+      turnOnText("WenChangGe-text", `這裡是文昌閣，文昌閣並不一定與孔子廟有關，而文昌帝君與魁星更與孔子無關，只是因為歷代重視科考，才會在孔子廟中興建文昌閣。`);
+    } else {
+      turnOffText("WenChangGe-text");
+    }
   }
 
   // 按下空白鍵會執行的內容
@@ -501,15 +560,15 @@ window.onload = function () {
     templeSceneContainer.addChild(WenChangGe);
   }
   function createWestWu() {
-    Wu = new Sprite(resources.Wu.texture);
-    Wu.x = 700;
-    Wu.y = 1370;
-    templeSceneContainer.addChild(Wu);
+    WestWu = new Sprite(resources.Wu.texture);
+    WestWu.x = 700;
+    WestWu.y = 1370;
+    templeSceneContainer.addChild(WestWu);
   }
   function createEastWu() {
-    Wu = new Sprite(resources.Wu.texture);
-    Wu.x = 1985;
-    Wu.y = 1370;
-    templeSceneContainer.addChild(Wu);
+    EastWu = new Sprite(resources.Wu.texture);
+    EastWu.x = 1985;
+    EastWu.y = 1370;
+    templeSceneContainer.addChild(EastWu);
   }
 }

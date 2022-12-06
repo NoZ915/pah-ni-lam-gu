@@ -12,15 +12,18 @@ let Application = PIXI.Application,
 let playerSheet = {};
 let statueSheet = {};
 let templeSheet = {};
+let TaiWenMuseumSheet = {};
+let JudicialMuseumSheet = {};
 let space = keyboard(32);
 
 let mainCanvas = document.getElementById("main-canvas");
 
 let state, player, homeIcon,
   mainScene, templeMap,
-  statue, temple, blo2, gameScene,
+  statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
   playerContainer, MainSceneContainer, templeSceneContainer;
 
+//temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
 
 window.onload = function () {
@@ -39,7 +42,8 @@ window.onload = function () {
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
     .add("templeAnimate", "./img/temple/templeAnimate.png")
-    .add("blo2", "./img/blo2.png")
+    .add("TaiWenMuseumAnimate", "./img/TaiWenMuseum/TaiWenMuseum.png")
+    .add("JudicialMuseumAnimate", "./img/JudicialMuseum/JudicialMuseum.png")
     .add("DaChengFang", "./img/templeScene/DaChengFang.png")
     .add("PanChi", "./img/templeScene/PanChi.png")
     .add("LingXingMen", "./img/templeScene/LingXingMen.png")
@@ -105,13 +109,6 @@ window.onload = function () {
     createEastWu();
     templeSceneContainer.visible = false;
 
-    blo2 = new Sprite(resources.blo2.texture);
-    blo2.x = app.screen.width * 0.5 + 180;
-    blo2.y = app.screen.height * 0.5;
-    blo2.width = 32;
-    blo2.height = 32;
-    templeSceneContainer.addChild(blo2);
-
     createStatueSheet();
     createStatue();
 
@@ -121,13 +118,19 @@ window.onload = function () {
     createPlayerSheet();
     createPlayer();
 
+    createTaiWenMuseumSheet();
+    createTaiWenMuseum();
+
+    createJudicialMuseumSheet();
+    createJudicialMuseum();
+
     //Capture the keyboard arrow keys
     let left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
 
-    let speed = 5;
+    let speed = 25;
 
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);
@@ -216,6 +219,26 @@ window.onload = function () {
         if (textBox.classList.contains("goToTempleConfirm")) {
           turnOffText("goToTempleConfirm");
         }
+      }
+      //撞文學館
+      if(hitTestRectangle(player, TaiWenMuseum)){
+        turnOnText("TaiWenMuseum-text", "這裡是台灣文學館，在日治時期這裡可是臺南州廳，戰後時期則作為空軍後勤司令部，是過去非常重要的地標... >>>")
+        if(!TaiWenMuseum.playing){
+          turnOnAnimate(TaiWenMuseum, TaiWenMuseumSheet.on);
+        }
+      }else{
+        turnOffAnimate(TaiWenMuseum, TaiWenMuseumSheet.off);
+        turnOffText("TaiWenMuseum-text");
+      }
+      //撞司法博物館
+      if(hitTestRectangle(player, JudicialMuseum)){
+        turnOnText("JudicialMuseum-text", "這裡是司法博物館，在日治時期是臺南地方法院，當時的地址是南門町二丁目... >>>")
+        if(!JudicialMuseum.playing){
+          turnOnAnimate(JudicialMuseum, JudicialMuseumSheet.on);
+        }
+      }else{
+        turnOffAnimate(JudicialMuseum, JudicialMuseumSheet.off);
+        turnOffText("JudicialMuseum-text");
       }
     }
   }
@@ -317,16 +340,11 @@ window.onload = function () {
   // 按下空白鍵會執行的內容
   function spaceFunction() {
     if (hitTestRectangle(player, statue)) {
-      if (!textBox.classList.contains("display-none")) {
-        console.log(space.press)
-        text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的位置。`;
-        textBox.classList.add("display-none");
-        textBox.classList.remove("display-none");
-      }
+      text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的道路。`;
     }
     if (hitTestRectangle(player, temple)) {
       if (textBox.classList.contains("temple-text")) {
-        text.innerText = `是否進入孔廟？`;
+        text.innerText = `是否進入孔廟？ >>>`;
         textBox.classList.add("goToTempleConfirm");
         textBox.classList.remove("temple-text");
       } else if (textBox.classList.contains("goToTempleConfirm")) {
@@ -342,7 +360,7 @@ window.onload = function () {
     }
     if (hitTestRectangle(player, WestDaChengFang)) {
       if (textBox.classList.contains("WestDaChengFang-text")) {
-        text.innerText = `是否離開孔廟？`;
+        text.innerText = `是否離開孔廟？ >>>`;
         textBox.classList.add("leaveWestDaChengFangConfirm");
         textBox.classList.remove("WestDaChengFang-text");
       } else if (textBox.classList.contains("leaveWestDaChengFangConfirm")) {
@@ -358,7 +376,7 @@ window.onload = function () {
     }
     if (hitTestRectangle(player, EastDaChengFang)) {
       if (textBox.classList.contains("EastDaChengFang-text")) {
-        text.innerText = `是否離開孔廟？`;
+        text.innerText = `是否離開孔廟？ >>>`;
         textBox.classList.add("leaveEastDaChengFangConfirm");
         textBox.classList.remove("EastDaChengFang-text");
       } else if (textBox.classList.contains("leaveEastDaChengFangConfirm")) {
@@ -371,6 +389,12 @@ window.onload = function () {
           MainSceneContainer.visible = true;
         });
       }
+    }
+    if(hitTestRectangle(player, TaiWenMuseum)){
+      text.innerText = "話說它的地址在2022年似乎有了很大的改變？要到文學館周圍的文學步道走走逛逛嗎？ >>>"
+    }
+    if(hitTestRectangle(player, JudicialMuseum)){
+      text.innerText = "不覺得這建築風格很眼熟嗎？這都是出自於「森山松之助」之手...進去司法博物館看看嗎？ >>>"
     }
   }
 
@@ -429,8 +453,8 @@ window.onload = function () {
     player.anchor.set(0.5, 0.5);
     player.animationSpeed = 0.3;
     player.loop = false;
-    player.x = app.screen.width * 0.5;
-    player.y = app.screen.height * 0.5;
+    player.x = 850;
+    player.y = 750;
     player.vx = 0;
     player.vy = 0;
     playerContainer = new Container();
@@ -489,7 +513,7 @@ window.onload = function () {
     temple.animationSpeed = 0.1;
     temple.loop = false;
     temple.x = 400;
-    temple.y = 1100;
+    temple.y = 1150;
     MainSceneContainer.addChild(temple);
   }
   //temple內部
@@ -570,5 +594,62 @@ window.onload = function () {
     EastWu.x = 1985;
     EastWu.y = 1370;
     templeSceneContainer.addChild(EastWu);
+  }
+
+  //TaiWenMuseum
+  function createTaiWenMuseumSheet() {
+    let ssheet = PIXI.Texture.from(resources.TaiWenMuseumAnimate.texture);
+    let w = 512;
+    let h = 486;
+
+    TaiWenMuseumSheet["on"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 2 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 2 * h, w, h))
+    ];
+    TaiWenMuseumSheet["off"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h))
+    ]
+  }
+  function createTaiWenMuseum() {
+    TaiWenMuseum = new PIXI.extras.AnimatedSprite(TaiWenMuseumSheet.off);
+    TaiWenMuseum.animationSpeed = 0.1;
+    TaiWenMuseum.loop = false;
+    TaiWenMuseum.x = 1040;
+    TaiWenMuseum.y = 1200;
+    MainSceneContainer.addChild(TaiWenMuseum);
+  }
+
+  //JudicialMuseum
+  function createJudicialMuseumSheet() {
+    let ssheet = PIXI.Texture.from(resources.JudicialMuseumAnimate.texture);
+    let w = 546;
+    let h = 420;
+
+    JudicialMuseumSheet["on"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(2 * w, 0 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(2 * w, 1 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 2 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(1 * w, 2 * h, w, h)),
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(2 * w, 2 * h, w, h))
+    ];
+    JudicialMuseumSheet["off"] = [
+      new PIXI.Texture(ssheet, new PIXI.Rectangle(0 * w, 0 * h, w, h))
+    ]
+  }
+  function createJudicialMuseum() {
+    JudicialMuseum = new PIXI.extras.AnimatedSprite(JudicialMuseumSheet.off);
+    JudicialMuseum.animationSpeed = 0.1;
+    JudicialMuseum.loop = false;
+    JudicialMuseum.x = 0;
+    JudicialMuseum.y = 250;
+    MainSceneContainer.addChild(JudicialMuseum);
   }
 }

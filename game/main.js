@@ -127,7 +127,7 @@ window.onload = function () {
       right = keyboard(39),
       down = keyboard(40);
 
-    let speed = 25;
+    let speed = 5;
 
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);

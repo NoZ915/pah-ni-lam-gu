@@ -333,9 +333,9 @@ window.onload = function () {
         state = goToTempleScene;
         turnOffText("goToTempleConfirm");
         MainSceneContainer.visible = false;
+        player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
+        player.y = EastDaChengFang.y + EastDaChengFang.height + 20;
         showLoadingPage(app, () => {
-          player.x = EastDaChengFang.x + EastDaChengFang.width / 2;
-          player.y = EastDaChengFang.y + EastDaChengFang.height + 20;
           templeSceneContainer.visible = true;
         });
       }

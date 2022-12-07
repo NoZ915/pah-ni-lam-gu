@@ -19,12 +19,14 @@ let space = keyboard(32);
 let mainCanvas = document.getElementById("main-canvas");
 
 let state, player, homeIcon,
-  mainScene, templeMap,
+  mainScene, templeMap, TaiWenMuseumMap,
   statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
-  playerContainer, MainSceneContainer, templeSceneContainer;
+  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer;
 
 //temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
+//TaiWenMuseum內部
+let TaiWenMuseumTopView
 
 window.onload = function () {
   let app = new Application({
@@ -38,6 +40,7 @@ window.onload = function () {
   loader
     .add("mainScene", "./img/mainScene.jpg")
     .add("templeMap", "./img/templeScene/templeMap.jpg")
+    .add("TaiWenMuseumMap", "./img/TaiWenMuseumScene/TaiWenMuseumMap.png")
     .add("homeIcon", "./img/home.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
@@ -55,6 +58,7 @@ window.onload = function () {
     .add("RuDeZhiMen", "./img/templeScene/RuDeZhiMen.png")
     .add("WenChangGe", "./img/templeScene/WenChangGe.png")
     .add("Wu", "./img/templeScene/Wu.png")
+    .add("TaiWenMuseumTopView", "./img/TaiWenMuseumScene/TaiWenMuseumTopView.png")
     .load(setUp);
 
   function setUp() {
@@ -108,6 +112,13 @@ window.onload = function () {
     createWestWu();
     createEastWu();
     templeSceneContainer.visible = false;
+
+    TaiWenMuseumSceneContainer = new Container();
+    app.stage.addChild(TaiWenMuseumSceneContainer);
+    TaiWenMuseumMap = new Sprite(resources.TaiWenMuseumMap.texture);
+    TaiWenMuseumSceneContainer.addChild(TaiWenMuseumMap);
+    createTaiWenMuseumTopView();
+    TaiWenMuseumSceneContainer.visible = false;
 
     createStatueSheet();
     createStatue();
@@ -187,7 +198,7 @@ window.onload = function () {
   function gameLoop(delta) {
     state(delta);
   }
-
+  // state = play
   function play(delta) {
     player.x += player.vx;
     player.y += player.vy;
@@ -242,7 +253,7 @@ window.onload = function () {
       }
     }
   }
-
+  //state = goToTempleScene
   function goToTempleScene() {
     player.x += player.vx;
     player.y += player.vy;
@@ -336,6 +347,15 @@ window.onload = function () {
       turnOffText("WenChangGe-text");
     }
   }
+  //state = goToTaiWenMuseum
+  function goToTaiWenMuseum(){
+    player.x += player.vx;
+    player.y += player.vy;
+
+    contain(player, { x: 0, y: 0, width: 2184, height: 1648 });
+
+    sceneLimit(player, playerContainer, TaiWenMuseumMap, TaiWenMuseumSceneContainer, app);
+  }
 
   // 按下空白鍵會執行的內容
   function spaceFunction() {
@@ -391,7 +411,21 @@ window.onload = function () {
       }
     }
     if(hitTestRectangle(player, TaiWenMuseum)){
-      text.innerText = "話說它的地址在2022年似乎有了很大的改變？要到文學館周圍的文學步道走走逛逛嗎？ >>>"
+      if(textBox.classList.contains("TaiWenMuseum-text")){
+        text.innerText = "話說它的地址在2022年似乎有了很大的改變？要到文學館周圍的文學步道走走逛逛嗎？ >>>"
+        textBox.classList.add("goToTaiWenMuseumConfirm");
+        textBox.classList.remove("TaiWenMuseum-text");
+      }else if(textBox.classList.contains("goToTaiWenMuseumConfirm")){
+        state = goToTaiWenMuseum;
+        turnOffText("goToTaiWenMuseumConfirm");
+        MainSceneContainer.visible = false;
+        player.x = TaiWenMuseumMap.x + TaiWenMuseumMap.width / 2;
+        player.y = TaiWenMuseumMap.y + TaiWenMuseumMap.height + 20;
+        showLoadingPage(app, () => {
+          TaiWenMuseumSceneContainer.visible = true;
+        });
+      }
+      
     }
     if(hitTestRectangle(player, JudicialMuseum)){
       text.innerText = "不覺得這建築風格很眼熟嗎？這都是出自於「森山松之助」之手...進去司法博物館看看嗎？ >>>"
@@ -483,7 +517,7 @@ window.onload = function () {
     statue = new PIXI.extras.AnimatedSprite(statueSheet.off);
     statue.animationSpeed = 0.1;
     statue.loop = false;
-    statue.x = mainScene.width - statue.width - 130;
+    statue.x = mainScene.width - statue.width - 115;
     statue.y = mainScene.height - statue.height - 190;
     statue.width = 295;
     statue.height = 486;
@@ -621,6 +655,11 @@ window.onload = function () {
     TaiWenMuseum.x = 1040;
     TaiWenMuseum.y = 1200;
     MainSceneContainer.addChild(TaiWenMuseum);
+  }
+  //TaiWenMuseum內部
+  function createTaiWenMuseumTopView(){
+    TaiWenMuseumTopView = new Sprite(resources.TaiWenMuseumTopView.texture);
+    TaiWenMuseumSceneContainer.addChild(TaiWenMuseumTopView);
   }
 
   //JudicialMuseum

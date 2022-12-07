@@ -15,6 +15,7 @@ let templeSheet = {};
 let TaiWenMuseumSheet = {};
 let JudicialMuseumSheet = {};
 let space = keyboard(32);
+let speed = 25;
 
 let mainCanvas = document.getElementById("main-canvas");
 
@@ -26,7 +27,7 @@ let state, player, homeIcon,
 //temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
 //TaiWenMuseum內部
-let TaiWenMuseumTopView
+let TaiWenMuseumTopView, A;
 
 window.onload = function () {
   let app = new Application({
@@ -59,6 +60,7 @@ window.onload = function () {
     .add("WenChangGe", "./img/templeScene/WenChangGe.png")
     .add("Wu", "./img/templeScene/Wu.png")
     .add("TaiWenMuseumTopView", "./img/TaiWenMuseumScene/TaiWenMuseumTopView.png")
+    .add("A", "./img/TaiWenMuseumScene/box/A.jpg")
     .load(setUp);
 
   function setUp() {
@@ -118,6 +120,7 @@ window.onload = function () {
     TaiWenMuseumMap = new Sprite(resources.TaiWenMuseumMap.texture);
     TaiWenMuseumSceneContainer.addChild(TaiWenMuseumMap);
     createTaiWenMuseumTopView();
+    createA();
     TaiWenMuseumSceneContainer.visible = false;
 
     createStatueSheet();
@@ -126,22 +129,20 @@ window.onload = function () {
     createTempleSheet();
     createTemple();
 
-    createPlayerSheet();
-    createPlayer();
-
     createTaiWenMuseumSheet();
     createTaiWenMuseum();
 
     createJudicialMuseumSheet();
     createJudicialMuseum();
 
+    createPlayerSheet();
+    createPlayer();
+
     //Capture the keyboard arrow keys
     let left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
-
-    let speed = 25;
 
     left.press = function () {
       turnOnAnimate(player, playerSheet.walkLeft);
@@ -355,6 +356,7 @@ window.onload = function () {
     contain(player, { x: 0, y: 0, width: 2184, height: 1648 });
 
     sceneLimit(player, playerContainer, TaiWenMuseumMap, TaiWenMuseumSceneContainer, app);
+
   }
 
   // 按下空白鍵會執行的內容
@@ -660,6 +662,12 @@ window.onload = function () {
   function createTaiWenMuseumTopView(){
     TaiWenMuseumTopView = new Sprite(resources.TaiWenMuseumTopView.texture);
     TaiWenMuseumSceneContainer.addChild(TaiWenMuseumTopView);
+  }
+  function createA(){
+    A = new Sprite(resources.A.texture);
+    A.x = 100;
+    A.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(A);
   }
 
   //JudicialMuseum

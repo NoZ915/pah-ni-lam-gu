@@ -1,15 +1,23 @@
-*{
+* {
   margin: 0;
   background-color: rgb(22, 22, 22);
 }
-body{
+
+html {
   height: 100%;
 }
+
+body {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 #main-canvas {
   position: relative;
-  margin:30px auto;
-  width: 70%;
-  height: 70%;
+  margin: auto;
+  /* width: 70%;
+  height: 70%; */
 }
 
 canvas {
@@ -19,7 +27,7 @@ canvas {
   height: 100%;
 }
 
-.text-box{
+.text-box {
   position: absolute;
   width: 50%;
   height: 100px;
@@ -29,7 +37,8 @@ canvas {
 
   background-color: rgba(185, 174, 174, 0.5);
 }
-.text{
+
+.text {
   margin: 10px 30px;
   height: 80px;
   overflow-y: auto;
@@ -38,6 +47,7 @@ canvas {
   font-family: "微軟正黑體";
   background-color: rgba(255, 255, 255, 0);
 }
-.display-none{
+
+.display-none {
   display: none;
 }

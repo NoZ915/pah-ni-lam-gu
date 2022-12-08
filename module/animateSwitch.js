@@ -14,7 +14,7 @@ export function turnOffAnimate(sprite, animateState) {
 }
 export function turnOnText(textClassName, newText) {
     if (textBox.classList.contains("display-none")) {
-        text.innerText = newText;
+        text.innerHTML = newText;
         textBox.classList.remove("display-none");
         textBox.classList.add(textClassName);
     }

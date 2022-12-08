@@ -15,7 +15,7 @@ let templeSheet = {};
 let TaiWenMuseumSheet = {};
 let JudicialMuseumSheet = {};
 let space = keyboard(32);
-let speed = 25;
+let speed = 10;
 
 let mainCanvas = document.getElementById("main-canvas");
 
@@ -27,7 +27,7 @@ let state, player, homeIcon,
 //temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
 //TaiWenMuseum內部
-let TaiWenMuseumTopView, A;
+let TaiWenMuseumTopView, back, A, B, C, D, E, F, G, H ,I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, num0, num1, num2, num3, num4, num5, num6;
 
 window.onload = function () {
   let app = new Application({
@@ -41,7 +41,7 @@ window.onload = function () {
   loader
     .add("mainScene", "./img/mainScene.jpg")
     .add("templeMap", "./img/templeScene/templeMap.jpg")
-    .add("TaiWenMuseumMap", "./img/TaiWenMuseumScene/TaiWenMuseumMap.png")
+    .add("TaiWenMuseumMap", "./img/TaiWenMuseumScene/TaiWenMuseumMap.jpg")
     .add("homeIcon", "./img/home.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
@@ -61,6 +61,39 @@ window.onload = function () {
     .add("Wu", "./img/templeScene/Wu.png")
     .add("TaiWenMuseumTopView", "./img/TaiWenMuseumScene/TaiWenMuseumTopView.png")
     .add("A", "./img/TaiWenMuseumScene/box/A.jpg")
+    .add("B", "./img/TaiWenMuseumScene/box/B.jpg")
+    .add("C", "./img/TaiWenMuseumScene/box/C.jpg")
+    .add("D", "./img/TaiWenMuseumScene/box/D.jpg")
+    .add("E", "./img/TaiWenMuseumScene/box/E.jpg")
+    .add("F", "./img/TaiWenMuseumScene/box/F.jpg")
+    .add("G", "./img/TaiWenMuseumScene/box/G.jpg")
+    .add("H", "./img/TaiWenMuseumScene/box/H.jpg")
+    .add("I", "./img/TaiWenMuseumScene/box/I.jpg")
+    .add("J", "./img/TaiWenMuseumScene/box/J.jpg")
+    .add("K", "./img/TaiWenMuseumScene/box/K.jpg")
+    .add("L", "./img/TaiWenMuseumScene/box/L.jpg")
+    .add("M", "./img/TaiWenMuseumScene/box/M.jpg")
+    .add("N", "./img/TaiWenMuseumScene/box/N.jpg")
+    .add("O", "./img/TaiWenMuseumScene/box/O.jpg")
+    .add("P", "./img/TaiWenMuseumScene/box/P.jpg")
+    .add("Q", "./img/TaiWenMuseumScene/box/Q.jpg")
+    .add("R", "./img/TaiWenMuseumScene/box/R.jpg")
+    .add("S", "./img/TaiWenMuseumScene/box/S.jpg")
+    .add("T", "./img/TaiWenMuseumScene/box/T.jpg")
+    .add("U", "./img/TaiWenMuseumScene/box/U.jpg")
+    .add("V", "./img/TaiWenMuseumScene/box/V.jpg")
+    .add("W", "./img/TaiWenMuseumScene/box/W.jpg")
+    .add("X", "./img/TaiWenMuseumScene/box/X.jpg")
+    .add("Y", "./img/TaiWenMuseumScene/box/Y.jpg")
+    .add("Z", "./img/TaiWenMuseumScene/box/Z.jpg")
+    .add("num0", "./img/TaiWenMuseumScene/box/num0.jpg")
+    .add("num1", "./img/TaiWenMuseumScene/box/num1.jpg")
+    .add("num2", "./img/TaiWenMuseumScene/box/num2.jpg")
+    .add("num3", "./img/TaiWenMuseumScene/box/num3.jpg")
+    .add("num4", "./img/TaiWenMuseumScene/box/num4.jpg")
+    .add("num5", "./img/TaiWenMuseumScene/box/num5.jpg")
+    .add("num6", "./img/TaiWenMuseumScene/box/num6.jpg")
+    .add("back", "./img/TaiWenMuseumScene/back.png")
     .load(setUp);
 
   function setUp() {
@@ -121,6 +154,39 @@ window.onload = function () {
     TaiWenMuseumSceneContainer.addChild(TaiWenMuseumMap);
     createTaiWenMuseumTopView();
     createA();
+    createB();
+    createC();
+    createD();
+    createE();
+    createF();
+    createG();
+    createH();
+    createI();
+    createJ();
+    createK();
+    createL();
+    createM();
+    createN();
+    createO();
+    createP();
+    createQ();
+    createR();
+    createS();
+    createT();
+    createU();
+    createV();
+    createW();
+    createX();
+    createY();
+    createZ();
+    createNum0();
+    createNum1();
+    createNum2();
+    createNum3();
+    createNum4();
+    createNum5();
+    createNum6();
+    createBack();
     TaiWenMuseumSceneContainer.visible = false;
 
     createStatueSheet();
@@ -241,6 +307,9 @@ window.onload = function () {
       }else{
         turnOffAnimate(TaiWenMuseum, TaiWenMuseumSheet.off);
         turnOffText("TaiWenMuseum-text");
+        if (textBox.classList.contains("goToTaiWenMuseumConfirm")) {
+          turnOffText("goToTaiWenMuseumConfirm");
+        }
       }
       //撞司法博物館
       if(hitTestRectangle(player, JudicialMuseum)){
@@ -353,10 +422,192 @@ window.onload = function () {
     player.x += player.vx;
     player.y += player.vy;
 
-    contain(player, { x: 0, y: 0, width: 2184, height: 1648 });
+    contain(player, { x: 0, y: 0, width: 2500, height: 1887 });
 
     sceneLimit(player, playerContainer, TaiWenMuseumMap, TaiWenMuseumSceneContainer, app);
 
+    //撞back鍵
+    if(hitTestRectangle(player, back)){
+      turnOnText("back-text", "要回到南門路上嗎？ >>>")
+    }else{
+      turnOffText("back-text")
+    }
+    //撞箱子
+    if(hitTestRectangle(player, A)){
+      turnOnText("A-text", "燈箱A：。")
+    }else{
+      turnOffText("A-text")
+    }
+    if(hitTestRectangle(player, B)){
+      turnOnText("B-text", "B。")
+    }else{
+      turnOffText("B-text")
+    }
+    if(hitTestRectangle(player, C)){
+      turnOnText("C-text", "C。")
+    }else{
+      turnOffText("C-text")
+    }
+    if(hitTestRectangle(player, D)){
+      turnOnText("D-text", "D。")
+    }else{
+      turnOffText("D-text")
+    }
+    if(hitTestRectangle(player, E)){
+      turnOnText("E-text", "E。")
+    }else{
+      turnOffText("E-text")
+    }
+    if(hitTestRectangle(player, F)){
+      turnOnText("F-text", "F。")
+    }else{
+      turnOffText("F-text")
+    }
+    if(hitTestRectangle(player, G)){
+      turnOnText("G-text", "G。")
+    }else{
+      turnOffText("G-text")
+    }
+    if(hitTestRectangle(player, H)){
+      turnOnText("H-text", "H。")
+    }else{
+      turnOffText("H-text")
+    }
+    if(hitTestRectangle(player, H)){
+      turnOnText("H-text", "H。")
+    }else{
+      turnOffText("H-text")
+    }
+    if(hitTestRectangle(player, H)){
+      turnOnText("H-text", "H。")
+    }else{
+      turnOffText("H-text")
+    }
+    if(hitTestRectangle(player, I)){
+      turnOnText("I-text", "I。")
+    }else{
+      turnOffText("I-text")
+    }
+    if(hitTestRectangle(player, J)){
+      turnOnText("J-text", "J。")
+    }else{
+      turnOffText("J-text")
+    }
+    if(hitTestRectangle(player, K)){
+      turnOnText("K-text", "K。")
+    }else{
+      turnOffText("K-text")
+    }
+    if(hitTestRectangle(player, L)){
+      turnOnText("L-text", "L。")
+    }else{
+      turnOffText("L-text")
+    }
+    if(hitTestRectangle(player, M)){
+      turnOnText("M-text", "M。")
+    }else{
+      turnOffText("M-text")
+    }
+    if(hitTestRectangle(player, N)){
+      turnOnText("N-text", "N。")
+    }else{
+      turnOffText("N-text")
+    }
+    if(hitTestRectangle(player, O)){
+      turnOnText("O-text", "O。")
+    }else{
+      turnOffText("O-text")
+    }
+    if(hitTestRectangle(player, P)){
+      turnOnText("P-text", "P。")
+    }else{
+      turnOffText("P-text")
+    }
+    if(hitTestRectangle(player, Q)){
+      turnOnText("Q-text", "Q。")
+    }else{
+      turnOffText("Q-text")
+    }
+    if(hitTestRectangle(player, R)){
+      turnOnText("R-text", "R。")
+    }else{
+      turnOffText("R-text")
+    }
+    if(hitTestRectangle(player, S)){
+      turnOnText("S-text", "S。")
+    }else{
+      turnOffText("S-text")
+    }
+    if(hitTestRectangle(player, T)){
+      turnOnText("T-text", "T。")
+    }else{
+      turnOffText("T-text")
+    }
+    if(hitTestRectangle(player, U)){
+      turnOnText("U-text", "U。")
+    }else{
+      turnOffText("U-text")
+    }
+    if(hitTestRectangle(player, V)){
+      turnOnText("V-text", "V。")
+    }else{
+      turnOffText("V-text")
+    }
+    if(hitTestRectangle(player, W)){
+      turnOnText("W-text", "W。")
+    }else{
+      turnOffText("W-text")
+    }
+    if(hitTestRectangle(player, X)){
+      turnOnText("X-text", "X。")
+    }else{
+      turnOffText("X-text")
+    }
+    if(hitTestRectangle(player, Y)){
+      turnOnText("Y-text", "Y。")
+    }else{
+      turnOffText("Y-text")
+    }
+    if(hitTestRectangle(player, Z)){
+      turnOnText("Z-text", "Z。")
+    }else{
+      turnOffText("Z-text")
+    }
+    if(hitTestRectangle(player, num0)){
+      turnOnText("num0-text", "num0。")
+    }else{
+      turnOffText("num0-text")
+    }
+    if(hitTestRectangle(player, num1)){
+      turnOnText("num1-text", "num1。")
+    }else{
+      turnOffText("num1-text")
+    }
+    if(hitTestRectangle(player, num2)){
+      turnOnText("num2-text", "num2。")
+    }else{
+      turnOffText("num2-text")
+    }
+    if(hitTestRectangle(player, num3)){
+      turnOnText("num3-text", "num3。")
+    }else{
+      turnOffText("num3-text")
+    }
+    if(hitTestRectangle(player, num4)){
+      turnOnText("num4-text", "num4。")
+    }else{
+      turnOffText("num4-text")
+    }
+    if(hitTestRectangle(player, num5)){
+      turnOnText("num5-text", "num5。")
+    }else{
+      turnOffText("num5-text")
+    }
+    if(hitTestRectangle(player, num6)){
+      turnOnText("num6-text", "num6。")
+    }else{
+      turnOffText("num6-text")
+    }
   }
 
   // 按下空白鍵會執行的內容
@@ -421,13 +672,23 @@ window.onload = function () {
         state = goToTaiWenMuseum;
         turnOffText("goToTaiWenMuseumConfirm");
         MainSceneContainer.visible = false;
-        player.x = TaiWenMuseumMap.x + TaiWenMuseumMap.width / 2;
-        player.y = TaiWenMuseumMap.y + TaiWenMuseumMap.height + 20;
+        player.x = back.x + back.width / 2;
+        player.y = back.y + back.height + 20;
         showLoadingPage(app, () => {
           TaiWenMuseumSceneContainer.visible = true;
         });
       }
-      
+    }
+    if(hitTestRectangle(player, back)){
+      console.log("hi")
+      state = play;
+      turnOffText("back-text");
+      TaiWenMuseumSceneContainer.visible = false;
+      showLoadingPage(app, () => {
+        player.x = TaiWenMuseum.x + TaiWenMuseum.width / 2;
+        player.y = TaiWenMuseum.y + TaiWenMuseum.height - 30;
+        MainSceneContainer.visible = true;
+      });
     }
     if(hitTestRectangle(player, JudicialMuseum)){
       text.innerText = "不覺得這建築風格很眼熟嗎？這都是出自於「森山松之助」之手...進去司法博物館看看嗎？ >>>"
@@ -663,13 +924,210 @@ window.onload = function () {
     TaiWenMuseumTopView = new Sprite(resources.TaiWenMuseumTopView.texture);
     TaiWenMuseumSceneContainer.addChild(TaiWenMuseumTopView);
   }
+  function createBack(){
+    back = new Sprite(resources.back.texture);
+    back.x = 2300;
+    back.y = 1550;
+    TaiWenMuseumSceneContainer.addChild(back);
+  }
   function createA(){
     A = new Sprite(resources.A.texture);
     A.x = 100;
     A.y = 1400;
     TaiWenMuseumSceneContainer.addChild(A);
   }
-
+  function createB(){
+    B = new Sprite(resources.B.texture);
+    B.x = 180;
+    B.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(B);
+  }
+  function createC(){
+    C = new Sprite(resources.C.texture);
+    C.x = 260;
+    C.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(C);
+  }
+  function createD(){
+    D = new Sprite(resources.D.texture);
+    D.x = 340;
+    D.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(D);
+  }
+  function createE(){
+    E = new Sprite(resources.E.texture);
+    E.x = 420;
+    E.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(E);
+  }
+  function createF(){
+    F = new Sprite(resources.F.texture);
+    F.x = 500;
+    F.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(F);
+  }
+  function createG(){
+    G = new Sprite(resources.G.texture);
+    G.x = 580;
+    G.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(G);
+  }
+  function createH(){
+    H = new Sprite(resources.H.texture);
+    H.x = 780;
+    H.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(H);
+  }
+  function createI(){
+    I = new Sprite(resources.I.texture);
+    I.x = 780;
+    I.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(I);
+  }
+  function createJ(){
+    J = new Sprite(resources.J.texture);
+    J.x = 860;
+    J.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(J);
+  }
+  function createK(){
+    K = new Sprite(resources.K.texture);
+    K.x = 940;
+    K.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(K);
+  }
+  function createL(){
+    L = new Sprite(resources.L.texture);
+    L.x = 1020;
+    L.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(L);
+  }
+  function createM(){
+    M = new Sprite(resources.M.texture);
+    M.x = 1100;
+    M.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(M);
+  }
+  function createN(){
+    N = new Sprite(resources.N.texture);
+    N.x = 1180;
+    N.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(N);
+  }
+  function createO(){
+    O = new Sprite(resources.O.texture);
+    O.x = 1260;
+    O.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(O);
+  }
+  function createP(){
+    P = new Sprite(resources.P.texture);
+    P.x = 1340;
+    P.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(P);
+  }
+  function createQ(){
+    Q = new Sprite(resources.Q.texture);
+    Q.x = 1420;
+    Q.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(Q);
+  }
+  function createR(){
+    R = new Sprite(resources.R.texture);
+    R.x = 1500;
+    R.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(R);
+  }
+  function createS(){
+    S = new Sprite(resources.S.texture);
+    S.x = 1580;
+    S.y = 1480;
+    TaiWenMuseumSceneContainer.addChild(S);
+  }
+  function createT(){
+    T = new Sprite(resources.T.texture);
+    T.x = 1660;
+    T.y = 1400;
+    TaiWenMuseumSceneContainer.addChild(T);
+  }
+  function createU(){
+    U = new Sprite(resources.U.texture);
+    U.x = 1740;
+    U.y = 1320;
+    TaiWenMuseumSceneContainer.addChild(U);
+  }
+  function createV(){
+    V = new Sprite(resources.V.texture);
+    V.x = 1820;
+    V.y = 1240;
+    TaiWenMuseumSceneContainer.addChild(V);
+  }
+  function createW(){
+    W = new Sprite(resources.W.texture);
+    W.x = 1980;
+    W.y = 1000;
+    TaiWenMuseumSceneContainer.addChild(W);
+  }
+  function createX(){
+    X = new Sprite(resources.X.texture);
+    X.x = 2060;
+    X.y = 920;
+    TaiWenMuseumSceneContainer.addChild(X);
+  }
+  function createY(){
+    Y = new Sprite(resources.Y.texture);
+    Y.x = 2140;
+    Y.y = 840;
+    TaiWenMuseumSceneContainer.addChild(Y);
+  }
+  function createZ(){
+    Z = new Sprite(resources.Z.texture);
+    Z.x = 2140;
+    Z.y = 650;
+    TaiWenMuseumSceneContainer.addChild(Z);
+  }
+  function createNum0(){
+    num0 = new Sprite(resources.num0.texture);
+    num0.x = 2100;
+    num0.y = 560;
+    TaiWenMuseumSceneContainer.addChild(num0);
+  }
+  function createNum1(){
+    num1 = new Sprite(resources.num1.texture);
+    num1.x = 2060;
+    num1.y = 470;
+    TaiWenMuseumSceneContainer.addChild(num1);
+  }
+  function createNum2(){
+    num2 = new Sprite(resources.num2.texture);
+    num2.x = 2020;
+    num2.y = 380;
+    TaiWenMuseumSceneContainer.addChild(num2);
+  }
+  function createNum3(){
+    num3 = new Sprite(resources.num3.texture);
+    num3.x = 1980;
+    num3.y = 290;
+    TaiWenMuseumSceneContainer.addChild(num3);
+  }
+  function createNum4(){
+    num4 = new Sprite(resources.num4.texture);
+    num4.x = 1940;
+    num4.y = 200;
+    TaiWenMuseumSceneContainer.addChild(num4);
+  }
+  function createNum5(){
+    num5 = new Sprite(resources.num5.texture);
+    num5.x = 1900;
+    num5.y = 110;
+    TaiWenMuseumSceneContainer.addChild(num5);
+  }
+  function createNum6(){
+    num6 = new Sprite(resources.num6.texture);
+    num6.x = 1860;
+    num6.y = 20;
+    TaiWenMuseumSceneContainer.addChild(num6);
+  }
   //JudicialMuseum
   function createJudicialMuseumSheet() {
     let ssheet = PIXI.Texture.from(resources.JudicialMuseumAnimate.texture);

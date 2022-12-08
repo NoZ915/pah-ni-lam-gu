@@ -434,12 +434,12 @@ window.onload = function () {
     }
     //撞箱子
     if (hitTestRectangle(player, A)) {
-      turnOnText("A-text", `只有砲火蒸餾過的酒<br>特別清醒每一滴都會讓你的舌尖舔到刺刀。`)
+      turnOnText("A-text", `只有砲火蒸餾過的酒<br>特別清醒<br>每一滴都會讓你的舌尖<br>舔到刺刀<br><br>白靈〈金門高粱〉2000`)
     } else {
       turnOffText("A-text")
     }
     if (hitTestRectangle(player, B)) {
-      turnOnText("B-text", "B。")
+      turnOnText("B-text", "心裡藏著的是繁複美麗的冬瓜盅。我有時候羨慕冬瓜煮過就透明了，人生卻要經歷多少的烹煮，才能夠明明白白？<br><br>張曼娟〈一片薄薄的冬瓜〉2004")
     } else {
       turnOffText("B-text")
     }

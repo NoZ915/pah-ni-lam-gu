@@ -434,177 +434,167 @@ window.onload = function () {
     }
     //撞箱子
     if (hitTestRectangle(player, A)) {
-      turnOnText("A-text", `只有砲火蒸餾過的酒<br>特別清醒<br>每一滴都會讓你的舌尖<br>舔到刺刀<br><br>白靈〈金門高粱〉2000`)
+      turnOnText("A-text", `【燈箱A】<br><br>只有砲火蒸餾過的酒<br>特別清醒<br>每一滴都會讓你的舌尖<br>舔到刺刀<br><br>白靈〈金門高粱〉2000`)
     } else {
       turnOffText("A-text")
     }
     if (hitTestRectangle(player, B)) {
-      turnOnText("B-text", "心裡藏著的是繁複美麗的冬瓜盅。我有時候羨慕冬瓜煮過就透明了，人生卻要經歷多少的烹煮，才能夠明明白白？<br><br>張曼娟〈一片薄薄的冬瓜〉2004")
+      turnOnText("B-text", `【燈箱B】<br><br>心裡藏著的是繁複美麗的冬瓜盅。我有時候羨慕冬瓜煮過就透明了，人生卻要經歷多少的烹煮，才能夠明明白白？<br><br>張曼娟〈一片薄薄的冬瓜〉2004`)
     } else {
       turnOffText("B-text")
     }
     if (hitTestRectangle(player, C)) {
-      turnOnText("C-text", "C。")
+      turnOnText("C-text", `【燈箱D】<br><br>湯底是時間淬鍊出來的魂，時間拉長了滋味的餘韻，最貴的成本，其實是跟食材對話的耐性。<br><br>米果〈湯頭是熬煮的心意不是化學添加的魔術〉2015`)
     } else {
       turnOffText("C-text")
     }
     if (hitTestRectangle(player, D)) {
-      turnOnText("D-text", "D。")
+      turnOnText("D-text", `【燈箱D】<br><br>杯中美色奪桃花，<br>妙釀如斯有幾家。<br>不但麴生風味好，<br>且教縱飲若餐霞。<br><br>許柱珠〈紅酒〉1933`)
     } else {
       turnOffText("D-text")
     }
     if (hitTestRectangle(player, E)) {
-      turnOnText("E-text", "E。")
+      turnOnText("E-text", `【燈箱E】<br><br>微軀秋後最驚風，<br>十月綿衣苦未縫。<br>燉得隔年紅面鴨，<br>茶油薑酒補三冬。<br><br>林緝熙〈辛卯秋冬雜詩之二〉1951`)
     } else {
       turnOffText("E-text")
     }
     if (hitTestRectangle(player, F)) {
-      turnOnText("F-text", "F。")
+      turnOnText("F-text", `【燈箱F】<br><br>豐原月餅出名鬆，<br>竹塹糖多氣味濃。<br>粵製不能閩製比，<br>說來瘦肉遜莎蓉。<br><br>林知義〈中秋竹枝詞之三〉日治`)
     } else {
       turnOffText("F-text")
     }
     if (hitTestRectangle(player, G)) {
-      turnOnText("G-text", "G。")
+      turnOnText("G-text", `【燈箱G】<br><br>糕餌炊成正月天，<br>春盤流盡老饕涎。<br>香甘好下屠蘇酒，<br>片片山妻手自煎。<br><br>傅錫祺〈年糕之二〉1911`)
     } else {
       turnOffText("G-text")
     }
     if (hitTestRectangle(player, H)) {
-      turnOnText("H-text", "H。")
-    } else {
-      turnOffText("H-text")
-    }
-    if (hitTestRectangle(player, H)) {
-      turnOnText("H-text", "H。")
-    } else {
-      turnOffText("H-text")
-    }
-    if (hitTestRectangle(player, H)) {
-      turnOnText("H-text", "H。")
+      turnOnText("H-text", `【燈箱H】<br><br>武巒名物醍醐味，<br>愛玉凍堪並一雙。<br>玉屑玄霜相醞釀，<br>盡教頭腦熱能降。<br><br>王炳南〈仙草冰〉1941`)
     } else {
       turnOffText("H-text")
     }
     if (hitTestRectangle(player, I)) {
-      turnOnText("I-text", "I。")
+      turnOnText("I-text", `【燈箱I】<br><br>金桔醬黃澄澄的，看了就讓人食指大動，……晚餐吃炸排骨，沾上金桔醬吃，有一點酸酸的，又有一點甜，爸爸和我都多吃了一碗飯。`)
     } else {
       turnOffText("I-text")
     }
     if (hitTestRectangle(player, J)) {
-      turnOnText("J-text", "J。")
+      turnOnText("J-text", `【燈箱J】<br><br>圓滾滾的潤餅握在手上，就如同白色芳香的記憶，從手心傳到心坎裡。<br><br>李敏勇〈清明之憶，潤餅之味〉2015`)
     } else {
       turnOffText("J-text")
     }
     if (hitTestRectangle(player, K)) {
-      turnOnText("K-text", "K。")
+      turnOnText("K-text", `【燈箱K】<br><br>灌了花生、糯米的豬大腸，若說出食材，恐怕會嚇壞日本人，……最好別問：「這外層有點嚼勁的皮是什麼？」<br><br>辛永清〈血液料理知多少？〉2012`)
     } else {
       turnOffText("K-text")
     }
     if (hitTestRectangle(player, L)) {
-      turnOnText("L-text", "L。")
+      turnOnText("L-text", `【燈箱L】<br><br>油燜苦瓜需要時間淬鍊，……起鍋時，一番柔軟新面貌，滋味先苦後甘，彷彿重新振作的人生。<br><br>朱國珍〈廚房的八字〉2016`)
     } else {
       turnOffText("L-text")
     }
     if (hitTestRectangle(player, M)) {
-      turnOnText("M-text", "M。")
+      turnOnText("M-text", `【燈箱M】<br><br>尋常鴨卵製偏奇，<br>食品新傳合品題。<br>不是霜刀探破殼，<br>分明認得一丸泥。<br><br>李逢時 〈皮蛋〉寫於咸豐年間`)
     } else {
       turnOffText("M-text")
     }
     if (hitTestRectangle(player, N)) {
-      turnOnText("N-text", "N。")
+      turnOnText("N-text", `【燈箱N】<br><br>如波似浪送清香，<br>沙士味奇力特強，<br>冰冷一瓶常在握，<br>消炎猶可潤吟腸。<br><br>何木火〈汽水〉1958`)
     } else {
       turnOffText("N-text")
     }
     if (hitTestRectangle(player, O)) {
-      turnOnText("O-text", "O。")
+      turnOnText("O-text", `【燈箱O】<br><br>菜尾，是我記憶中的佳餚，心中的「絕饗」，菜尾不只是食物，是一段歷史的味道。<br><br>方梓〈歷史的味道〉2008`)
     } else {
       turnOffText("O-text")
     }
     if (hitTestRectangle(player, P)) {
-      turnOnText("P-text", "P。")
+      turnOnText("P-text", `【燈箱P】<br><br>鍋巴上灑著一點點的鹽，切了薑片，再加上罐頭的魚，真是好吃極了。我對著外公說：「外公，怎麼那麼好吃！」<br><br>亞榮隆．撒可努〈外公的海〉2011`)
     } else {
       turnOffText("P-text")
     }
     if (hitTestRectangle(player, Q)) {
-      turnOnText("Q-text", "Q。")
+      turnOnText("Q-text", `【燈箱Q】<br><br>「菜燕切塊」，以菱形呈現，不會很甜，可以直接就口，咬下有爽脆彈牙的感覺，冬瓜口味、黑糖口味是主流，這是夏天午後的傳統涼品點心，沁涼爽滑。<br><br>王浩一〈嘉義．朴子〉2016`)
     } else {
       turnOffText("Q-text")
     }
     if (hitTestRectangle(player, R)) {
-      turnOnText("R-text", "R。")
+      turnOnText("R-text", `【燈箱R】<br><br>冬季的烏魚儲夠能量洄游產卵，也正是青蒜最軟嫩當時的季節，把兩者煮成米粉湯，那可真是老天爺的傑作。<br><br>凌煙〈烏魚米粉和白鯧米粉〉2019`)
     } else {
       turnOffText("R-text")
     }
     if (hitTestRectangle(player, S)) {
-      turnOnText("S-text", "S。")
+      turnOnText("S-text", `【燈箱S】<br><br>斑文浮點點，一片認魚皮。<br>冒鼓聲鞺鞳，藏弓服陸離。<br>蒸成鱗已脫，剔去骨無遺。<br>至味都包裹，真堪佐酒卮。<br><br>毛士釗〈魚皮五律〉寫於道光期間`)
     } else {
       turnOffText("S-text")
     }
     if (hitTestRectangle(player, T)) {
-      turnOnText("T-text", "T。")
+      turnOnText("T-text", `【燈箱T】<br><br>吃完一枝杏仁鹹冰棒，……他說愚公移山移的如果是鹽山，許多人會來幫忙挑擔吧。<br><br>宇文正〈他說的，關於愛〉2017`)
     } else {
       turnOffText("T-text")
     }
     if (hitTestRectangle(player, U)) {
-      turnOnText("U-text", "U。")
+      turnOnText("U-text", `【燈箱U】<br><br>想往過煮鹹糜，……若有豬油、蔥頭khiàn芳，閣有thang摻che肉粕仔，就sut kah m̄知影thang飽--lò͘！<br><br>蕭平治〈菜豆仔糜〉2002`)
     } else {
       turnOffText("U-text")
     }
     if (hitTestRectangle(player, V)) {
-      turnOnText("V-text", "V。")
+      turnOnText("V-text", `【燈箱V】<br><br>啊！鹹菜！煮豬血！我歡呼一聲。鹹菜，尤其鹹菜婆的鹹菜，煮豬血最好吃了，每次我都吃三碗！<br><br>李喬〈鹹菜婆〉1967`)
     } else {
       turnOffText("V-text")
     }
     if (hitTestRectangle(player, W)) {
-      turnOnText("W-text", "W。")
+      turnOnText("W-text", `【燈箱W】<br><br>蔗甘原有種，葉白自成奇。<br>芽長滋清露，風搖動素旗。<br>既分姜尚鬢，微奪馬良眉。<br>壓搾寒漿出，如流碧玉脂。<br><br>王竹修〈白葉蔗之一〉1939`)
     } else {
       turnOffText("W-text")
     }
     if (hitTestRectangle(player, X)) {
-      turnOnText("X-text", "X。")
+      turnOnText("X-text", `【燈箱X】<br><br>甜粄个味緒<br>細細口緊食<br>阿姆个艱苦啊<br>映入做妹儕心肝肚<br>續無半屑甜味<br><br>張芳慈〈甜粄味〉2001`)
     } else {
       turnOffText("X-text")
     }
     if (hitTestRectangle(player, Y)) {
-      turnOnText("Y-text", "Y。")
+      turnOnText("Y-text", `【燈箱Y】<br><br>絲纏葉裹總紛紛，<br>頭角應須露幾分。<br>只愛菱形蘸糖食，<br>誰知粒粒盡辛勤。<br><br>許炯軒〈角黍〉1932`)
     } else {
       turnOffText("Y-text")
     }
     if (hitTestRectangle(player, Z)) {
-      turnOnText("Z-text", "Z。")
+      turnOnText("Z-text", `【燈箱Z】<br><br>她小心而珍惜的把山羌醃肉從竹筒倒在碗裡，醃肉特有的香味頓時充滿了小小的病房。<br><br>里慕伊．阿紀〈探病〉2010`)
     } else {
       turnOffText("Z-text")
     }
     if (hitTestRectangle(player, num0)) {
-      turnOnText("num0-text", "num0。")
+      turnOnText("num0-text", `【燈箱0】<br><br>無法標示出酒精濃度<br>具有「流連忘返在霧中」的香味<br>用族人的感覺<br>釀製而成<br>的《小米酒》<br><br>沙力浪．達凱斯茀萊藍〈我在圖書館找一本酒〉2011`)
     } else {
       turnOffText("num0-text")
     }
     if (hitTestRectangle(player, num1)) {
-      turnOnText("num1-text", "num1。")
+      turnOnText("num1-text", `【燈箱1】<br><br>達悟人吃魚，是吃魚在海裡的曼妙游姿，吃魚的漂亮，吃魚的聰明，吃魚的堅韌性格，吃魚的團結。<br><br>夏曼．藍波安〈達悟族吃魚的文化〉2002`)
     } else {
       turnOffText("num1-text")
     }
     if (hitTestRectangle(player, num2)) {
-      turnOnText("num2-text", "num2。")
+      turnOnText("num2-text", `【燈箱2】<br><br>登盤肉重螯雙剪，<br>入饌膏肥殼一筐。<br>且向樽前陪蟻綠，<br>不容口裡肆雌黃。<br>當筵知有調羹者，<br>早備紅椒和紫薑。<br><br>林資銓〈蟹之三〉日治`)
     } else {
       turnOffText("num2-text")
     }
     if (hitTestRectangle(player, num3)) {
-      turnOnText("num3-text", "num3。")
+      turnOnText("num3-text", `【燈箱3】<br><br>鐵板上先放進蚵仔、青菜，再舀入兌過水的番薯粉，打蛋進去，香味隨著熱氣蒸騰四散，油花亢奮地跳舞<br><br>焦桐〈蚵仔煎〉 2009`)
     } else {
       turnOffText("num3-text")
     }
     if (hitTestRectangle(player, num4)) {
-      turnOnText("num4-text", "num4。")
+      turnOnText("num4-text", `【燈箱4】<br><br>囡仔的耳孔特別利，枝仔冰販仔猶未夠，猶原佇真遠的所在，猴囡仔已經聽著叫賣枝仔冰聲。<br><br>胡民祥〈糖蔥及枝仔冰〉1996`)
     } else {
       turnOffText("num4-text")
     }
     if (hitTestRectangle(player, num5)) {
-      turnOnText("num5-text", "num5。")
+      turnOnText("num5-text", `【燈箱5】<br><br>有一股熟悉的氣味從爐上的水鍋中飄進了他的鼻孔裡……是肉燥！速食麵的肉燥包！<br><br>郭強生〈何必回味〉1997`)
     } else {
       turnOffText("num5-text")
     }
     if (hitTestRectangle(player, num6)) {
-      turnOnText("num6-text", "num6。")
+      turnOnText("num6-text", `【燈箱6】<br><br>一剝開竹皮，一股清香就撲鼻而來，而且那糯米和花生米蒸得黏軟恰到好處，有入口就化的感覺。<br><br>葉石濤〈吃菜粽〉1994`)
     } else {
       turnOffText("num6-text")
     }

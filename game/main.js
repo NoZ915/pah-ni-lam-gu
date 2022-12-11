@@ -22,7 +22,7 @@ let mainCanvas = document.getElementById("main-canvas");
 let state, player, homeIcon,
   mainScene, templeMap, TaiWenMuseumMap,
   statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
-  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer;
+  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, toolContainer;
 
 //temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
@@ -108,25 +108,6 @@ window.onload = function () {
     mainScene.height = app.screen.height * 3;
     MainSceneContainer.addChild(mainScene);
 
-    homeIcon = new Sprite(resources.homeIcon.texture);
-    homeIcon.anchor.set(0.5)
-    homeIcon.x = 40;
-    homeIcon.y = 40;
-    app.stage.addChild(homeIcon);
-    homeIcon.interactive = true;
-    homeIcon.buttonMode = true;
-    homeIcon.pointerdown = function () {
-      window.location.href = "index.html"
-    }
-    homeIcon.pointerover = function () {
-      homeIcon.scale.x = 0.8;
-      homeIcon.scale.y = 0.8;
-    }
-    homeIcon.pointerout = function () {
-      homeIcon.scale.x = 1;
-      homeIcon.scale.y = 1;
-    }
-
     templeSceneContainer = new Container();
     app.stage.addChild(templeSceneContainer);
     templeMap = new Sprite(resources.templeMap.texture);
@@ -203,6 +184,29 @@ window.onload = function () {
 
     createPlayerSheet();
     createPlayer();
+
+    //最上層界面toolContainer，用來存放不被影響的內容
+    toolContainer = new Container();
+    app.stage.addChild(toolContainer);
+    createHomeIcon();
+    // homeIcon = new Sprite(resources.homeIcon.texture);
+    // homeIcon.anchor.set(0.5)
+    // homeIcon.x = 40;
+    // homeIcon.y = 40;
+    // toolContainer.addChild(homeIcon);
+    // homeIcon.interactive = true;
+    // homeIcon.buttonMode = true;
+    // homeIcon.pointerdown = function () {
+    //   window.location.href = "index.html"
+    // }
+    // homeIcon.pointerover = function () {
+    //   homeIcon.scale.x = 0.8;
+    //   homeIcon.scale.y = 0.8;
+    // }
+    // homeIcon.pointerout = function () {
+    //   homeIcon.scale.x = 1;
+    //   homeIcon.scale.y = 1;
+    // }
 
     //Capture the keyboard arrow keys
     let left = keyboard(37),
@@ -1146,5 +1150,27 @@ window.onload = function () {
     JudicialMuseum.x = 0;
     JudicialMuseum.y = 250;
     MainSceneContainer.addChild(JudicialMuseum);
+  }
+
+  //toolContainer群組中的東西
+  function createHomeIcon(){
+    homeIcon = new Sprite(resources.homeIcon.texture);
+    homeIcon.anchor.set(0.5)
+    homeIcon.x = 40;
+    homeIcon.y = 40;
+    toolContainer.addChild(homeIcon);
+    homeIcon.interactive = true;
+    homeIcon.buttonMode = true;
+    homeIcon.pointerdown = function () {
+      window.location.href = "index.html"
+    }
+    homeIcon.pointerover = function () {
+      homeIcon.scale.x = 0.8;
+      homeIcon.scale.y = 0.8;
+    }
+    homeIcon.pointerout = function () {
+      homeIcon.scale.x = 1;
+      homeIcon.scale.y = 1;
+    }
   }
 }

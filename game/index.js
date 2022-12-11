@@ -4,11 +4,14 @@ let Application = PIXI.Application,
   Container = PIXI.Container,
   loader = PIXI.loader,
   resources = PIXI.loader.resources,
-  Sprite = PIXI.Sprite;
+  Sprite = PIXI.Sprite,
+  Text = PIXI.Text,
+  TextStyle = PIXI.TextStyle;
+
 let startBackgroundSheet = {};
 let startButtonSheet = {};
 let helpButtonSheet = {};
-let startBackground, startButton, helpButton, lineQRcode;
+let startBackground, startButton, helpButton, message;
 
 let mainCanvas = document.getElementById("main-canvas");
 
@@ -35,6 +38,16 @@ window.onload = function () {
 
     createHelpButtonSheet();
     createHelpButton();
+
+    let style = new TextStyle({
+      fontFamily: "Arial",
+      fontSize: 23,
+      fill: "white"
+    });
+    message = new Text(`↑↓→← & spacebar & click`, style);
+    message.x = app.stage.width/2 - message.width/2;
+    message.y = helpButton.y + helpButton.height + 25;
+    app.stage.addChild(message);
   }
 
   //StartBackground

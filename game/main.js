@@ -1,7 +1,7 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helperFunction.js";
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
-
+import { getTempleMap } from "../module/getItem.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -15,17 +15,17 @@ let templeSheet = {};
 let TaiWenMuseumSheet = {};
 let JudicialMuseumSheet = {};
 let space = keyboard(32);
-let speed = 10;
+let speed = 30;
 
 let mainCanvas = document.getElementById("main-canvas");
 
 let state, player, homeIcon,
   mainScene, templeMap, TaiWenMuseumMap,
   statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
-  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, toolContainer;
+  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, itemContainer;
 
 //temple內部
-let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu;
+let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu, MingLunTang;
 //TaiWenMuseum內部
 let TaiWenMuseumTopView, back, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, num0, num1, num2, num3, num4, num5, num6;
 
@@ -59,6 +59,7 @@ window.onload = function () {
     .add("RuDeZhiMen", "./img/templeScene/RuDeZhiMen.png")
     .add("WenChangGe", "./img/templeScene/WenChangGe.png")
     .add("Wu", "./img/templeScene/Wu.png")
+    .add("MingLunTang", "./img/templeScene/MingLunTang.png")
     .add("TaiWenMuseumTopView", "./img/TaiWenMuseumScene/TaiWenMuseumTopView.png")
     .add("A", "./img/TaiWenMuseumScene/box/A.jpg")
     .add("B", "./img/TaiWenMuseumScene/box/B.jpg")
@@ -127,6 +128,7 @@ window.onload = function () {
     createWenChangGe();
     createWestWu();
     createEastWu();
+    createMingLunTang();
     templeSceneContainer.visible = false;
 
     TaiWenMuseumSceneContainer = new Container();
@@ -185,28 +187,11 @@ window.onload = function () {
     createPlayerSheet();
     createPlayer();
 
-    //最上層界面toolContainer，用來存放不被影響的內容
-    toolContainer = new Container();
-    app.stage.addChild(toolContainer);
+    //最上層界面itemContainer，用來存放不被影響的內容
+    itemContainer = new Container();
+    app.stage.addChild(itemContainer);
     createHomeIcon();
-    // homeIcon = new Sprite(resources.homeIcon.texture);
-    // homeIcon.anchor.set(0.5)
-    // homeIcon.x = 40;
-    // homeIcon.y = 40;
-    // toolContainer.addChild(homeIcon);
-    // homeIcon.interactive = true;
-    // homeIcon.buttonMode = true;
-    // homeIcon.pointerdown = function () {
-    //   window.location.href = "index.html"
-    // }
-    // homeIcon.pointerover = function () {
-    //   homeIcon.scale.x = 0.8;
-    //   homeIcon.scale.y = 0.8;
-    // }
-    // homeIcon.pointerout = function () {
-    //   homeIcon.scale.x = 1;
-    //   homeIcon.scale.y = 1;
-    // }
+
 
     //Capture the keyboard arrow keys
     let left = keyboard(37),
@@ -420,6 +405,15 @@ window.onload = function () {
     } else {
       turnOffText("WenChangGe-text");
     }
+    //撞明倫堂
+    if(hitTestRectangle(player, MingLunTang)){
+      turnOnText("MingLunTang-text", `這裡是明倫堂，映入眼簾的是一大面的書法，那是仿元代書畫家趙孟頫所書之「大學之道」篇...>>>`)
+    }else{
+      turnOffText("MingLunTang-text");
+      if (textBox.classList.contains("MingLunTangitemConfirm")) {
+        turnOffText("MingLunTangitemConfirm");
+      }
+    }
   }
   //state = goToTaiWenMuseum
   function goToTaiWenMuseum() {
@@ -448,7 +442,7 @@ window.onload = function () {
       turnOffText("B-text")
     }
     if (hitTestRectangle(player, C)) {
-      turnOnText("C-text", `【燈箱C】<br><br>湯底是時間淬鍊出來的魂，時間拉長了滋味的餘韻，最貴的成本，其實是跟食材對話的耐性。<br><br>米果〈湯頭是熬煮的心意不是化學添加的魔術〉2015`)
+      turnOnText("C-text", `【燈箱D】<br><br>湯底是時間淬鍊出來的魂，時間拉長了滋味的餘韻，最貴的成本，其實是跟食材對話的耐性。<br><br>米果〈湯頭是熬煮的心意不是化學添加的魔術〉2015`)
     } else {
       turnOffText("C-text")
     }
@@ -623,6 +617,16 @@ window.onload = function () {
         showLoadingPage(app, () => {
           templeSceneContainer.visible = true;
         });
+      }
+    }
+    if (hitTestRectangle(player, MingLunTang)) {
+      if (textBox.classList.contains("MingLunTang-text")) {
+        text.innerText = "前方好像有張紙？要撿起來看看嗎？"
+        textBox.classList.add("MingLunTangitemConfirm");
+        textBox.classList.remove("MingLunTang-text");
+      } else if (textBox.classList.contains("MingLunTangitemConfirm")) {
+        turnOffText("MingLunTangitemConfirm");
+        getTempleMap(itemContainer,app);
       }
     }
     if (hitTestRectangle(player, WestDaChengFang)) {
@@ -885,6 +889,12 @@ window.onload = function () {
     EastWu.x = 1985;
     EastWu.y = 1370;
     templeSceneContainer.addChild(EastWu);
+  }
+  function createMingLunTang(){
+    MingLunTang = new Sprite(resources.MingLunTang.texture);
+    MingLunTang.x = 2410;
+    MingLunTang.y = 1030;
+    templeSceneContainer.addChild(MingLunTang);
   }
 
   //TaiWenMuseum
@@ -1152,13 +1162,13 @@ window.onload = function () {
     MainSceneContainer.addChild(JudicialMuseum);
   }
 
-  //toolContainer群組中的東西
+  //itemContainer群組中的東西
   function createHomeIcon(){
     homeIcon = new Sprite(resources.homeIcon.texture);
     homeIcon.anchor.set(0.5)
     homeIcon.x = 40;
     homeIcon.y = 40;
-    toolContainer.addChild(homeIcon);
+    itemContainer.addChild(homeIcon);
     homeIcon.interactive = true;
     homeIcon.buttonMode = true;
     homeIcon.pointerdown = function () {

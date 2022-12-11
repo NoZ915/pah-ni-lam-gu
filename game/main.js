@@ -448,7 +448,7 @@ window.onload = function () {
       turnOffText("B-text")
     }
     if (hitTestRectangle(player, C)) {
-      turnOnText("C-text", `【燈箱D】<br><br>湯底是時間淬鍊出來的魂，時間拉長了滋味的餘韻，最貴的成本，其實是跟食材對話的耐性。<br><br>米果〈湯頭是熬煮的心意不是化學添加的魔術〉2015`)
+      turnOnText("C-text", `【燈箱C】<br><br>湯底是時間淬鍊出來的魂，時間拉長了滋味的餘韻，最貴的成本，其實是跟食材對話的耐性。<br><br>米果〈湯頭是熬煮的心意不是化學添加的魔術〉2015`)
     } else {
       turnOffText("C-text")
     }

@@ -25,7 +25,7 @@ let state, player, homeIcon,
   playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, itemContainer;
 
 //temple內部
-let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu, MingLunTang;
+let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu, MingLunTang, DaChengMen;
 //TaiWenMuseum內部
 let TaiWenMuseumTopView, back, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, num0, num1, num2, num3, num4, num5, num6;
 
@@ -60,6 +60,7 @@ window.onload = function () {
     .add("WenChangGe", "./img/templeScene/WenChangGe.png")
     .add("Wu", "./img/templeScene/Wu.png")
     .add("MingLunTang", "./img/templeScene/MingLunTang.png")
+    .add("DaChengMen", "./img/templeScene/DaChengMen.png")
     .add("TaiWenMuseumTopView", "./img/TaiWenMuseumScene/TaiWenMuseumTopView.png")
     .add("A", "./img/TaiWenMuseumScene/box/A.jpg")
     .add("B", "./img/TaiWenMuseumScene/box/B.jpg")
@@ -129,6 +130,7 @@ window.onload = function () {
     createWestWu();
     createEastWu();
     createMingLunTang();
+    createDaChengMen();
     templeSceneContainer.visible = false;
 
     TaiWenMuseumSceneContainer = new Container();
@@ -413,6 +415,12 @@ window.onload = function () {
       if (textBox.classList.contains("MingLunTangitemConfirm")) {
         turnOffText("MingLunTangitemConfirm");
       }
+    }
+    //撞大成門
+    if(hitTestRectangle(player, DaChengMen)){
+      turnOnText("DaChengMen-text", `這裡是大成門，三開間之每組門扇都採門釘裝飾，每邊54顆，共108顆。9是陽數之極，9的倍數108為禮制中最大。一般廟宇門扇以畫門神為主，門釘只有於受封王侯的神祇可用，孔廟於大門使用門釘，表示孔子地位的不凡。`);
+    }else{
+      turnOffText("DaChengMen-text");
     }
   }
   //state = goToTaiWenMuseum
@@ -895,6 +903,12 @@ window.onload = function () {
     MingLunTang.x = 2410;
     MingLunTang.y = 1030;
     templeSceneContainer.addChild(MingLunTang);
+  }
+  function createDaChengMen(){
+    DaChengMen = new Sprite(resources.DaChengMen.texture);
+    DaChengMen.x = 1100;
+    DaChengMen.y = 1815;
+    templeSceneContainer.addChild(DaChengMen);
   }
 
   //TaiWenMuseum

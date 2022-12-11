@@ -120,14 +120,6 @@ export function getTempleMap(itemContainer, mainApp) {
                 bigTempleMap.visible = true;
             }
         }
-        templeMap.pointerover = function () {
-            templeMap.scale.x = 0.99;
-            templeMap.scale.y = 0.99;
-        }
-        templeMap.pointerout = function () {
-            templeMap.scale.x = 1;
-            templeMap.scale.y = 1;
-        }
     }
     function createOk() {
         ok = new Sprite(resources.ok.texture);

@@ -1,7 +1,7 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helperFunction.js";
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
-import { getTempleMap } from "../module/getItem.js";
+import { getTempleMap, getNote } from "../module/getItem.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -15,11 +15,11 @@ let templeSheet = {};
 let TaiWenMuseumSheet = {};
 let JudicialMuseumSheet = {};
 let space = keyboard(32);
-let speed = 30;
+let speed = 10;
 
 let mainCanvas = document.getElementById("main-canvas");
 
-let state, player, homeIcon,
+let state, player, homeIcon, transparentBlock,
   mainScene, templeMap, TaiWenMuseumMap,
   statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
   playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, itemContainer;
@@ -96,6 +96,7 @@ window.onload = function () {
     .add("num5", "./img/TaiWenMuseumScene/box/num5.jpg")
     .add("num6", "./img/TaiWenMuseumScene/box/num6.jpg")
     .add("back", "./img/TaiWenMuseumScene/back.png")
+    .add("transparentBlock", "./img/transparentBlock.png")
     .load(setUp);
 
   function setUp() {
@@ -109,6 +110,13 @@ window.onload = function () {
     mainScene.width = app.screen.width * 2;
     mainScene.height = app.screen.height * 3;
     MainSceneContainer.addChild(mainScene);
+
+    transparentBlock = new Sprite(resources.transparentBlock.texture);
+    transparentBlock.width = 64;
+    transparentBlock.height = 64;
+    transparentBlock.x = 1405;
+    transparentBlock.y = 50;
+    MainSceneContainer.addChild(transparentBlock);
 
     templeSceneContainer = new Container();
     app.stage.addChild(templeSceneContainer);
@@ -266,6 +274,12 @@ window.onload = function () {
     if (MainSceneContainer.visible) {
       sceneLimit(player, playerContainer, mainScene, MainSceneContainer, app);
 
+      //撞透明方塊（中正路與永福路二段交叉路口）
+      if(hitTestRectangle(player, transparentBlock)){
+        turnOnText("transparentBlock-text", `這個路口似乎有什麼東西，要挖挖看嗎？ >>>`);
+      }else{
+        turnOffText("transparentBlock-text");
+      }
       //撞雕像
       if (hitTestRectangle(player, statue)) {
         turnOnText("statue-text", `這裡是湯德章公園...  >>> `);
@@ -611,6 +625,11 @@ window.onload = function () {
     if (hitTestRectangle(player, statue)) {
       text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的道路。`;
     }
+    if (hitTestRectangle(player, transparentBlock)) {
+      if (textBox.classList.contains("transparentBlock-text")) {
+        getNote(itemContainer,app);
+      }
+    }
     if (hitTestRectangle(player, temple)) {
       if (textBox.classList.contains("temple-text")) {
         text.innerText = `是否進入孔廟？ >>>`;
@@ -664,7 +683,7 @@ window.onload = function () {
         templeSceneContainer.visible = false;
         showLoadingPage(app, () => {
           player.x = temple.x + temple.width / 2;
-          player.y = temple.y - 20;
+          player.y = temple.y + 500;
           MainSceneContainer.visible = true;
         });
       }

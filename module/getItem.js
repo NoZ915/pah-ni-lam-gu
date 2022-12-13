@@ -1,3 +1,5 @@
+let textBox = document.querySelector(".text-box");
+
 //getItem模板
 export function getItem(itemContainer, mainApp) {
     let loader = PIXI.loader,
@@ -131,6 +133,8 @@ export function getTempleMap(itemContainer, mainApp) {
         ok.buttonMode = true;
         ok.pointerdown = function () {
             getItemContainer.destroy();
+            textBox.classList.remove("noBox");
+            textBox.classList.add("display-none");
             if (!templeMap.visible) {
                 templeMap.visible = true;
             }
@@ -227,6 +231,8 @@ export function getNote(itemContainer, mainApp) {
         ok.buttonMode = true;
         ok.pointerdown = function () {
             getItemContainer.destroy();
+            textBox.classList.remove("noBox");
+            textBox.classList.add("display-none");
             if (!note.visible) {
                 note.visible = true;
             }

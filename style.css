@@ -51,3 +51,6 @@ canvas {
 .display-none {
   display: none;
 }
+.noBox{
+  display: none;
+}

@@ -627,6 +627,8 @@ window.onload = function () {
     }
     if (hitTestRectangle(player, transparentBlock)) {
       if (textBox.classList.contains("transparentBlock-text")) {
+        textBox.classList.remove("transparentBlock-text");
+        textBox.classList.add("noBox");
         getNote(itemContainer,app);
       }
     }
@@ -652,7 +654,8 @@ window.onload = function () {
         textBox.classList.add("MingLunTangitemConfirm");
         textBox.classList.remove("MingLunTang-text");
       } else if (textBox.classList.contains("MingLunTangitemConfirm")) {
-        turnOffText("MingLunTangitemConfirm");
+        textBox.classList.remove("MingLunTangitemConfirm");
+        textBox.classList.add("noBox");
         getTempleMap(itemContainer,app);
       }
     }
@@ -705,7 +708,6 @@ window.onload = function () {
       }
     }
     if (hitTestRectangle(player, back)) {
-      console.log("hi")
       state = play;
       turnOffText("back-text");
       TaiWenMuseumSceneContainer.visible = false;

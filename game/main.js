@@ -1,7 +1,7 @@
 import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helperFunction.js";
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
-import { getTempleMap, getNote } from "../module/getItem.js";
+import { getTempleMap, getNote, getIDcard } from "../module/getItem.js";
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -19,10 +19,10 @@ let speed = 10;
 
 let mainCanvas = document.getElementById("main-canvas");
 
-let state, player, homeIcon, transparentBlock,
-  mainScene, templeMap, TaiWenMuseumMap,
+let state, player, homeIcon, transparentBlock, IDcardOnFloor,
+  mainScene, templeMap, TaiWenMuseumMap, JudicialMuseumMap,
   statue, temple, TaiWenMuseum, JudicialMuseum, gameScene,
-  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, itemContainer;
+  playerContainer, MainSceneContainer, templeSceneContainer, TaiWenMuseumSceneContainer, itemContainer, JudicialMuseumSceneContainer;
 
 //temple內部
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu, MingLunTang, DaChengMen;
@@ -42,6 +42,7 @@ window.onload = function () {
     .add("mainScene", "./img/mainScene.jpg")
     .add("templeMap", "./img/templeScene/templeMap.jpg")
     .add("TaiWenMuseumMap", "./img/TaiWenMuseumScene/TaiWenMuseumMap.jpg")
+    .add("JudicialMuseumMap", "./img/JudicialMuseumScene/JudicialMuseumMap.jpg")
     .add("homeIcon", "./img/home.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
@@ -97,6 +98,7 @@ window.onload = function () {
     .add("num6", "./img/TaiWenMuseumScene/box/num6.jpg")
     .add("back", "./img/TaiWenMuseumScene/back.png")
     .add("transparentBlock", "./img/transparentBlock.png")
+    .add("IDcardOnFloor","./img/IDcardOnFloor.png")
     .load(setUp);
 
   function setUp() {
@@ -117,6 +119,13 @@ window.onload = function () {
     transparentBlock.x = 1405;
     transparentBlock.y = 50;
     MainSceneContainer.addChild(transparentBlock);
+
+    IDcardOnFloor = new Sprite(resources.IDcardOnFloor.texture);
+    IDcardOnFloor.width = 46;
+    IDcardOnFloor.height = 30;
+    IDcardOnFloor.x = 1000;
+    IDcardOnFloor.y = 750;
+    MainSceneContainer.addChild(IDcardOnFloor);
 
     templeSceneContainer = new Container();
     app.stage.addChild(templeSceneContainer);
@@ -181,6 +190,12 @@ window.onload = function () {
     createNum6();
     createBack();
     TaiWenMuseumSceneContainer.visible = false;
+
+    JudicialMuseumSceneContainer = new Container();
+    app.stage.addChild(JudicialMuseumSceneContainer);
+    JudicialMuseumMap = new Sprite(resources.JudicialMuseumMap.texture);
+    JudicialMuseumSceneContainer.addChild(JudicialMuseumMap);
+    JudicialMuseumSceneContainer.visible = false;
 
     createStatueSheet();
     createStatue();
@@ -279,6 +294,12 @@ window.onload = function () {
         turnOnText("transparentBlock-text", `這個路口似乎有什麼東西，要挖挖看嗎？ >>>`);
       }else{
         turnOffText("transparentBlock-text");
+      }
+      //撞識別證
+      if(hitTestRectangle(player, IDcardOnFloor)){
+        turnOnText("IDcardOnFloor-text", `地上怎麼有張識別證，要撿起來看看是誰的嗎？ >>>`);
+      }else{
+        turnOffText("IDcardOnFloor-text");
       }
       //撞雕像
       if (hitTestRectangle(player, statue)) {
@@ -619,6 +640,15 @@ window.onload = function () {
       turnOffText("num6-text")
     }
   }
+  //state = goToJedicalMuseum
+  function goToJudicialMuseum(){
+    player.x += player.vx;
+    player.y += player.vy;
+
+    contain(player, { x: 0, y: 0, width: 4032, height: 3415 });
+
+    sceneLimit(player, playerContainer, JudicialMuseumMap, JudicialMuseumSceneContainer, app);
+  }
 
   // 按下空白鍵會執行的內容
   function spaceFunction() {
@@ -629,7 +659,16 @@ window.onload = function () {
       if (textBox.classList.contains("transparentBlock-text")) {
         textBox.classList.remove("transparentBlock-text");
         textBox.classList.add("noBox");
+        transparentBlock.x = 999999;
         getNote(itemContainer,app);
+      }
+    }
+    if(hitTestRectangle(player,IDcardOnFloor)){
+      if(textBox.classList.contains("IDcardOnFloor-text")){
+        textBox.classList.remove("IDcardOnFloor-text");
+        textBox.classList.add("noBox");
+        IDcardOnFloor.x = 999999;
+        getIDcard(itemContainer,app);
       }
     }
     if (hitTestRectangle(player, temple)) {
@@ -718,7 +757,20 @@ window.onload = function () {
       });
     }
     if (hitTestRectangle(player, JudicialMuseum)) {
-      text.innerText = "不覺得這建築風格很眼熟嗎？這都是出自於「森山松之助」之手...進去司法博物館看看嗎？ >>>"
+      if (textBox.classList.contains("JudicialMuseum-text")) {
+        text.innerText = "不覺得這建築風格很眼熟嗎？這都是出自於「森山松之助」之手...進去司法博物館看看嗎？ >>>"
+        textBox.classList.add("goToJudicialMuseumConfirm");
+        textBox.classList.remove("JudicialMuseum-text");
+      } else if (textBox.classList.contains("goToJudicialMuseumConfirm")) {
+        state = goToJudicialMuseum;
+        turnOffText("goToJudicialMuseumConfirm");
+        MainSceneContainer.visible = false;
+        player.x = app.stage.height/2;
+        player.y = app.stage.width/2;
+        showLoadingPage(app, () => {
+          JudicialMuseumSceneContainer.visible = true;
+        });
+      }
     }
   }
 

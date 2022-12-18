@@ -173,7 +173,7 @@ export function getNote(itemContainer, mainApp) {
 
         creategetNote();
         createTempleMapItem();
-        createbigTempleMap()
+        createbigTempleMap();
         createOk();
 
         getItemContainer.x = mainApp.screen.width / 2 - getItemContainer.width / 2;
@@ -235,6 +235,115 @@ export function getNote(itemContainer, mainApp) {
             textBox.classList.add("display-none");
             if (!note.visible) {
                 note.visible = true;
+            }
+            loader.reset();
+        }
+        ok.pointerover = function () {
+            ok.scale.x = 0.99;
+            ok.scale.y = 0.99;
+        }
+        ok.pointerout = function () {
+            ok.scale.x = 1;
+            ok.scale.y = 1;
+        }
+    }
+}
+
+//獲得識別證
+export function getIDcard(itemContainer, mainApp) {
+    let loader = PIXI.loader,
+        resources = PIXI.loader.resources,
+        Sprite = PIXI.Sprite,
+        Container = PIXI.Container,
+        Text = PIXI.Text,
+        TextStyle = PIXI.TextStyle;
+
+    let getIDcard, IDcard, bigIDcard, ok, getItemContainer, message;
+
+    loader
+        .add("getIDcard", "./img/getItem/getIDcard.png")
+        .add("IDcard", "./img/getItem/IDcard.png")
+        .add("bigIDcard", "./img/getItem/bigIDcard.png")
+        .add("ok", "./img/getItem/ok.png")
+        .load(setup)
+
+    function setup() {
+        getItemContainer = new Container;
+        itemContainer.addChild(getItemContainer);
+
+        creategetIDcard();
+        createIDcardItem();
+        createbigIDcard();
+        createOk();
+
+        getItemContainer.x = mainApp.screen.width / 2 - getItemContainer.width / 2;
+        getItemContainer.y = mainApp.screen.height / 2 - getItemContainer.height / 2;
+    }
+    //建立獲得識別證道具對話框
+    function creategetIDcard() {
+        getIDcard = new Sprite(resources.getIDcard.texture);
+        getIDcard.x = 0;
+        getIDcard.y = 0;
+        getItemContainer.addChild(getIDcard);
+    }
+    //建立道具顯示
+    function createbigIDcard() {
+        bigIDcard = new Sprite(resources.bigIDcard.texture);
+        bigIDcard.anchor.set(0.5);
+        bigIDcard.x = mainApp.screen.width / 2;
+        bigIDcard.y = 324;
+        itemContainer.addChild(bigIDcard);
+        bigIDcard.visible = false;
+
+        let style = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: 23,
+            fill: "black"
+        });
+        message = new Text(`似乎可以透過這個QRcode聯繫到這張卡片的主人...\n試著聯繫看看，我也不清楚對方是否會有動靜，\n或許可以傳個卡片上的「編號」讓對方知道您的來歷？`, style);
+        message.x = 250;
+        message.y = getIDcard.y + getIDcard.height + 30;
+        itemContainer.addChild(message);
+        message.visible = false;
+
+        bigIDcard.interactive = true;
+        bigIDcard.buttonMode = true;
+        bigIDcard.pointerdown = function () {
+            bigIDcard.visible = false;
+            message.visible = false;
+        }
+    }
+    //建立左上角道具小圖
+    function createIDcardItem() {
+        IDcard = new Sprite(resources.IDcard.texture);
+        IDcard.x = 740;
+        IDcard.y = 10;
+        itemContainer.addChild(IDcard);
+        IDcard.visible = false;
+
+        IDcard.interactive = true;
+        IDcard.buttonMode = true;
+        IDcard.pointerdown = function () {
+            if (!bigIDcard.visible) {
+                bigIDcard.visible = true;
+                message.visible = true;
+            }
+        }
+    }
+    function createOk() {
+        ok = new Sprite(resources.ok.texture);
+        ok.x = getIDcard.width / 2 - ok.width / 2;
+        ok.y = getIDcard.height - 110;
+        getItemContainer.addChild(ok);
+
+        ok.interactive = true;
+        ok.buttonMode = true;
+        ok.pointerdown = function () {
+            getItemContainer.destroy();
+            textBox.classList.remove("noBox");
+            textBox.classList.add("display-none");
+            if (!IDcard.visible) {
+                IDcard.visible = true;
             }
             loader.reset();
         }

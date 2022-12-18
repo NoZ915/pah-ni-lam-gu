@@ -38,16 +38,6 @@ window.onload = function () {
 
     createHelpButtonSheet();
     createHelpButton();
-
-    let style = new TextStyle({
-      fontFamily: "Arial",
-      fontSize: 23,
-      fill: "white"
-    });
-    message = new Text(`↑↓→← & spacebar & click`, style);
-    message.x = app.stage.width/2 - message.width/2;
-    message.y = helpButton.y + helpButton.height + 25;
-    app.stage.addChild(message);
   }
 
   //StartBackground

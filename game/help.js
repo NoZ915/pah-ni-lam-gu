@@ -20,24 +20,18 @@ window.onload = function () {
   mainCanvas.appendChild(app.view);
 
   loader
-    .add("LuHingIDcard", "./img/LuHingIDcard.png")
     .add("back_buttonAnimate", "./img/help/back_button.png")
     .load(setup)
 
   function setup() {
-    LuHingIDcard = new Sprite(resources.LuHingIDcard.texture);
-    LuHingIDcard.x = app.screen.width / 2 - LuHingIDcard.width / 2;
-    LuHingIDcard.y = 30;
-    app.stage.addChild(LuHingIDcard);
-
     let style = new TextStyle({
       fontFamily: "Arial",
       fontSize: 23,
       fill: "white"
     });
-    message = new Text(`似乎可以透過這個QRcode聯繫到這張卡片的主人...\n試著聯繫看看，我也不清楚對方是否會有動靜，\n或許可以傳個卡片上的「編號」讓對方知道您的來歷？`, style);
+    message = new Text(`↑↓→← & spacebar & click`, style);
     message.x = app.screen.width / 2 - message.width / 2;
-    message.y = LuHingIDcard.y + LuHingIDcard.height + 30;
+    message.y = app.screen.height / 2 - message.height / 2;
     app.stage.addChild(message);
 
     createBackButtonSheet();

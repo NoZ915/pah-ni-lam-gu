@@ -28,6 +28,8 @@ let state, player, homeIcon, transparentBlock, IDcardOnFloor,
 let WestDaChengFang, EastDaChengFang, PanChi, LingXingMen, YiLu, LiMen, DaChengDian, MingHuanCi, XiaoZiCi, RuDeZhiMen, WenChangGe, EastWu, WestWu, MingLunTang, DaChengMen;
 //TaiWenMuseum內部
 let TaiWenMuseumTopView, back, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, num0, num1, num2, num3, num4, num5, num6;
+//JudicialMuseum內部
+let backArrow, secondCourt;
 
 window.onload = function () {
   let app = new Application({
@@ -44,6 +46,8 @@ window.onload = function () {
     .add("TaiWenMuseumMap", "./img/TaiWenMuseumScene/TaiWenMuseumMap.jpg")
     .add("JudicialMuseumMap", "./img/JudicialMuseumScene/JudicialMuseumMap.jpg")
     .add("homeIcon", "./img/home.png")
+    .add("transparentBlock", "./img/transparentBlock.png")
+    .add("IDcardOnFloor","./img/IDcardOnFloor.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
     .add("templeAnimate", "./img/temple/templeAnimate.png")
@@ -97,8 +101,8 @@ window.onload = function () {
     .add("num5", "./img/TaiWenMuseumScene/box/num5.jpg")
     .add("num6", "./img/TaiWenMuseumScene/box/num6.jpg")
     .add("back", "./img/TaiWenMuseumScene/back.png")
-    .add("transparentBlock", "./img/transparentBlock.png")
-    .add("IDcardOnFloor","./img/IDcardOnFloor.png")
+    .add("backArrow", "./img/JudicialMuseumScene/backArrow.png")
+    .add("secondCourt", "./img/JudicialMuseumScene/secondCourt.png")
     .load(setUp);
 
   function setUp() {
@@ -196,6 +200,8 @@ window.onload = function () {
     JudicialMuseumMap = new Sprite(resources.JudicialMuseumMap.texture);
     JudicialMuseumSceneContainer.addChild(JudicialMuseumMap);
     JudicialMuseumSceneContainer.visible = false;
+    createBackArrow();
+    createSecondCourt();
 
     createStatueSheet();
     createStatue();
@@ -216,7 +222,6 @@ window.onload = function () {
     itemContainer = new Container();
     app.stage.addChild(itemContainer);
     createHomeIcon();
-
 
     //Capture the keyboard arrow keys
     let left = keyboard(37),
@@ -646,8 +651,18 @@ window.onload = function () {
     player.y += player.vy;
 
     contain(player, { x: 0, y: 0, width: 4032, height: 3415 });
-
     sceneLimit(player, playerContainer, JudicialMuseumMap, JudicialMuseumSceneContainer, app);
+
+    if(hitTestRectangle(player, backArrow)){
+      turnOnText("backArrow-text", `是否回到忠義路一段 >>>`);
+    }else{
+      turnOffText("backArrow-text");
+    }
+    if(hitTestRectangle(player, secondCourt)){
+      turnOnText("secondCourt-text", `這裡是第二法庭，裡面好像有些什麼，要不要進去看看？ >>>`);
+    }else{
+      turnOffText("secondCourt-text");
+    }
   }
 
   // 按下空白鍵會執行的內容
@@ -765,12 +780,25 @@ window.onload = function () {
         state = goToJudicialMuseum;
         turnOffText("goToJudicialMuseumConfirm");
         MainSceneContainer.visible = false;
-        player.x = app.stage.height/2;
-        player.y = app.stage.width/2;
+        player.x = 850;
+        player.y = 3100;
         showLoadingPage(app, () => {
           JudicialMuseumSceneContainer.visible = true;
         });
       }
+    }
+    if (hitTestRectangle(player, backArrow)) {
+      state = play;
+      turnOffText("backArrow-text");
+      JudicialMuseumSceneContainer.visible = false;
+      showLoadingPage(app, () => {
+        player.x = JudicialMuseum.x + JudicialMuseum.width / 2;
+        player.y = JudicialMuseum.y + JudicialMuseum.height - 30;
+        MainSceneContainer.visible = true;
+      });
+    }
+    if(hitTestRectangle(player, secondCourt)){
+      
     }
   }
 
@@ -1247,6 +1275,19 @@ window.onload = function () {
     JudicialMuseum.x = 0;
     JudicialMuseum.y = 250;
     MainSceneContainer.addChild(JudicialMuseum);
+  }
+  //JudicialMuseum內部
+  function createBackArrow(){
+    backArrow = new Sprite(resources.backArrow.texture);
+    backArrow.x = 850 - backArrow.width/2;
+    backArrow.y = 3200;
+    JudicialMuseumSceneContainer.addChild(backArrow);
+  }
+  function createSecondCourt(){
+    secondCourt = new Sprite(resources.secondCourt.texture);
+    secondCourt.x = 2390;
+    secondCourt.y = 1375;
+    JudicialMuseumSceneContainer.addChild(secondCourt);
   }
 
   //itemContainer群組中的東西

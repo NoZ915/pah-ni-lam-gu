@@ -2,6 +2,7 @@ import { contain, keyboard, hitTestRectangle, sceneLimit } from "../module/helpe
 import { turnOnAnimate, turnOffAnimate, turnOnText, turnOffText, textBox, text } from "../module/animateSwitch.js";
 import { showLoadingPage } from "../module/loading.js";
 import { getTempleMap, getNote, getIDcard } from "../module/getItem.js";
+import { showSecondCourt } from "../module/secondCourt.js"
 
 let Application = PIXI.Application,
   Container = PIXI.Container,
@@ -801,7 +802,7 @@ window.onload = function () {
       });
     }
     if (hitTestRectangle(player, secondCourt)) {
-
+      showSecondCourt(itemContainer);
     }
   }
 

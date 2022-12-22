@@ -47,7 +47,7 @@ window.onload = function () {
     .add("JudicialMuseumMap", "./img/JudicialMuseumScene/JudicialMuseumMap.jpg")
     .add("homeIcon", "./img/home.png")
     .add("transparentBlock", "./img/transparentBlock.png")
-    .add("IDcardOnFloor","./img/IDcardOnFloor.png")
+    .add("IDcardOnFloor", "./img/IDcardOnFloor.png")
     .add("playerAnimate", "./img/player/playerAnimate.png")
     .add("statueAnimate", "./img/statue/statueAnimate.png")
     .add("templeAnimate", "./img/temple/templeAnimate.png")
@@ -295,15 +295,15 @@ window.onload = function () {
       sceneLimit(player, playerContainer, mainScene, MainSceneContainer, app);
 
       //撞透明方塊（中正路與永福路二段交叉路口）
-      if(hitTestRectangle(player, transparentBlock)){
+      if (hitTestRectangle(player, transparentBlock)) {
         turnOnText("transparentBlock-text", `這個路口似乎有什麼東西，要挖挖看嗎？ >>>`);
-      }else{
+      } else {
         turnOffText("transparentBlock-text");
       }
       //撞識別證
-      if(hitTestRectangle(player, IDcardOnFloor)){
+      if (hitTestRectangle(player, IDcardOnFloor)) {
         turnOnText("IDcardOnFloor-text", `地上怎麼有張識別證，要撿起來看看是誰的嗎？ >>>`);
-      }else{
+      } else {
         turnOffText("IDcardOnFloor-text");
       }
       //撞雕像
@@ -351,6 +351,9 @@ window.onload = function () {
       } else {
         turnOffAnimate(JudicialMuseum, JudicialMuseumSheet.off);
         turnOffText("JudicialMuseum-text");
+        if (textBox.classList.contains("goToJudicialMuseumConfirm")) {
+          turnOffText("goToJudicialMuseumConfirm");
+        }
       }
     }
   }
@@ -448,18 +451,18 @@ window.onload = function () {
       turnOffText("WenChangGe-text");
     }
     //撞明倫堂
-    if(hitTestRectangle(player, MingLunTang)){
+    if (hitTestRectangle(player, MingLunTang)) {
       turnOnText("MingLunTang-text", `這裡是明倫堂，映入眼簾的是一大面的書法，那是仿元代書畫家趙孟頫所書之「大學之道」篇...>>>`)
-    }else{
+    } else {
       turnOffText("MingLunTang-text");
       if (textBox.classList.contains("MingLunTangitemConfirm")) {
         turnOffText("MingLunTangitemConfirm");
       }
     }
     //撞大成門
-    if(hitTestRectangle(player, DaChengMen)){
+    if (hitTestRectangle(player, DaChengMen)) {
       turnOnText("DaChengMen-text", `這裡是大成門，三開間之每組門扇都採門釘裝飾，每邊54顆，共108顆。9是陽數之極，9的倍數108為禮制中最大。一般廟宇門扇以畫門神為主，門釘只有於受封王侯的神祇可用，孔廟於大門使用門釘，表示孔子地位的不凡。`);
-    }else{
+    } else {
       turnOffText("DaChengMen-text");
     }
   }
@@ -646,21 +649,21 @@ window.onload = function () {
     }
   }
   //state = goToJedicalMuseum
-  function goToJudicialMuseum(){
+  function goToJudicialMuseum() {
     player.x += player.vx;
     player.y += player.vy;
 
     contain(player, { x: 0, y: 0, width: 4032, height: 3415 });
     sceneLimit(player, playerContainer, JudicialMuseumMap, JudicialMuseumSceneContainer, app);
 
-    if(hitTestRectangle(player, backArrow)){
+    if (hitTestRectangle(player, backArrow)) {
       turnOnText("backArrow-text", `是否回到忠義路一段 >>>`);
-    }else{
+    } else {
       turnOffText("backArrow-text");
     }
-    if(hitTestRectangle(player, secondCourt)){
+    if (hitTestRectangle(player, secondCourt)) {
       turnOnText("secondCourt-text", `這裡是第二法庭，裡面好像有些什麼，要不要進去看看？ >>>`);
-    }else{
+    } else {
       turnOffText("secondCourt-text");
     }
   }
@@ -675,15 +678,15 @@ window.onload = function () {
         textBox.classList.remove("transparentBlock-text");
         textBox.classList.add("noBox");
         transparentBlock.x = 999999;
-        getNote(itemContainer,app);
+        getNote(itemContainer, app);
       }
     }
-    if(hitTestRectangle(player,IDcardOnFloor)){
-      if(textBox.classList.contains("IDcardOnFloor-text")){
+    if (hitTestRectangle(player, IDcardOnFloor)) {
+      if (textBox.classList.contains("IDcardOnFloor-text")) {
         textBox.classList.remove("IDcardOnFloor-text");
         textBox.classList.add("noBox");
         IDcardOnFloor.x = 999999;
-        getIDcard(itemContainer,app);
+        getIDcard(itemContainer, app);
       }
     }
     if (hitTestRectangle(player, temple)) {
@@ -710,7 +713,7 @@ window.onload = function () {
       } else if (textBox.classList.contains("MingLunTangitemConfirm")) {
         textBox.classList.remove("MingLunTangitemConfirm");
         textBox.classList.add("noBox");
-        getTempleMap(itemContainer,app);
+        getTempleMap(itemContainer, app);
       }
     }
     if (hitTestRectangle(player, WestDaChengFang)) {
@@ -797,8 +800,8 @@ window.onload = function () {
         MainSceneContainer.visible = true;
       });
     }
-    if(hitTestRectangle(player, secondCourt)){
-      
+    if (hitTestRectangle(player, secondCourt)) {
+
     }
   }
 
@@ -999,13 +1002,13 @@ window.onload = function () {
     EastWu.y = 1370;
     templeSceneContainer.addChild(EastWu);
   }
-  function createMingLunTang(){
+  function createMingLunTang() {
     MingLunTang = new Sprite(resources.MingLunTang.texture);
     MingLunTang.x = 2410;
     MingLunTang.y = 1030;
     templeSceneContainer.addChild(MingLunTang);
   }
-  function createDaChengMen(){
+  function createDaChengMen() {
     DaChengMen = new Sprite(resources.DaChengMen.texture);
     DaChengMen.x = 1100;
     DaChengMen.y = 1815;
@@ -1277,13 +1280,13 @@ window.onload = function () {
     MainSceneContainer.addChild(JudicialMuseum);
   }
   //JudicialMuseum內部
-  function createBackArrow(){
+  function createBackArrow() {
     backArrow = new Sprite(resources.backArrow.texture);
-    backArrow.x = 850 - backArrow.width/2;
+    backArrow.x = 850 - backArrow.width / 2;
     backArrow.y = 3200;
     JudicialMuseumSceneContainer.addChild(backArrow);
   }
-  function createSecondCourt(){
+  function createSecondCourt() {
     secondCourt = new Sprite(resources.secondCourt.texture);
     secondCourt.x = 2390;
     secondCourt.y = 1375;
@@ -1291,7 +1294,7 @@ window.onload = function () {
   }
 
   //itemContainer群組中的東西
-  function createHomeIcon(){
+  function createHomeIcon() {
     homeIcon = new Sprite(resources.homeIcon.texture);
     homeIcon.anchor.set(0.5)
     homeIcon.x = 40;

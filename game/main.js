@@ -666,6 +666,9 @@ window.onload = function () {
       turnOnText("secondCourt-text", `這裡是第二法庭，裡面好像有些什麼，要不要進去看看？ >>>`);
     } else {
       turnOffText("secondCourt-text");
+      if (textBox.classList.contains("secondCourtAll-text")) {
+        turnOffText("secondCourtAll-text");
+      }
     }
   }
 
@@ -802,7 +805,13 @@ window.onload = function () {
       });
     }
     if (hitTestRectangle(player, secondCourt)) {
-      showSecondCourt(itemContainer);
+      if (textBox.classList.contains("secondCourt-text")) {
+        turnOffText("secondCourt-text");
+        turnOnText("secondCourtAll-text", `摸摸看，好像有甚麼線索？`)
+        showSecondCourt(itemContainer, app);
+      } else {
+        turnOffText("secondCourtAll-text");
+      }
     }
   }
 

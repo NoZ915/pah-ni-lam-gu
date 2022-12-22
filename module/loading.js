@@ -14,7 +14,7 @@ export function showLoadingPage(mainApp, func) {
     let percent = 0;
     let timer = setInterval(function () {
       percent += 1;
-      console.log(percent)
+      // console.log(percent)
       if (percent > 100) {
         // func();
         clearInterval(timer);

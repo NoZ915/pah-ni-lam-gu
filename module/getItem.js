@@ -156,9 +156,11 @@ export function getNote(itemContainer, mainApp) {
     let loader = PIXI.loader,
         resources = PIXI.loader.resources,
         Sprite = PIXI.Sprite,
-        Container = PIXI.Container;
+        Container = PIXI.Container,
+        Text = PIXI.Text,
+        TextStyle = PIXI.TextStyle;
 
-    let getNote, note, bigNote, ok, getItemContainer;
+    let getNote, note, bigNote, ok, getItemContainer, messageNote;
 
     loader
         .add("getNote", "./img/getItem/getNote.png")
@@ -197,10 +199,22 @@ export function getNote(itemContainer, mainApp) {
         itemContainer.addChild(bigNote);
         bigNote.visible = false;
 
+        let style = new TextStyle({
+            fontFamily: "Arial",
+            fontSize: 23,
+            fill: "black"
+        });
+        messageNote = new Text(`上下引號中的「迎風之舞」是不是有什麼特別之處？`, style);
+        messageNote.x = mainApp.screen.width / 2 - messageNote.width / 2;
+        messageNote.y = bigNote.y + 200;
+        itemContainer.addChild(messageNote);
+        messageNote.visible = false;
+
         bigNote.interactive = true;
         bigNote.buttonMode = true;
         bigNote.pointerdown = function () {
             bigNote.visible = false;
+            messageNote.visible = false;
         }
     }
     //建立左上角道具小圖
@@ -218,6 +232,7 @@ export function getNote(itemContainer, mainApp) {
         note.pointerdown = function () {
             if (!bigNote.visible) {
                 bigNote.visible = true;
+                messageNote.visible = true;
             }
         }
     }

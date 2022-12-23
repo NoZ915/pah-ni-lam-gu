@@ -675,7 +675,10 @@ window.onload = function () {
   // 按下空白鍵會執行的內容
   function spaceFunction() {
     if (hitTestRectangle(player, statue)) {
-      text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的道路。`;
+      if (textBox.classList.contains("statue-text")){
+        text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的道路。`;
+      }
+      // text.innerText = `這座雕像名為「迎風之舞」，注意雕像面向的道路。`;
     }
     if (hitTestRectangle(player, transparentBlock)) {
       if (textBox.classList.contains("transparentBlock-text")) {

@@ -1,7 +1,7 @@
 ![image](./img/homepage.png)
 ****
 # 百年南遇
-2022年上下學期畢業專題--「百年南遇」。前端遊戲畫面主要使用PixiJS完成，遊戲LineBot則利用expressJS建置，並架設在Heroku雲平台上（目前已下架）。
+2022年上下學期畢業專題--「百年南遇」。前端遊戲畫面主要使用PixiJS完成，遊戲LineBot則利用expressJS建置，並架設在Heroku雲平台上（目前已改架設至Zeabur）。
 
 1. [百年南遇-遊戲前端入口](https://noz915.github.io/pah-ni-lam-gu/main.html)
 2. [百年南遇-書面報告](https://docs.google.com/document/d/1b_VGhIp5eUpohtB7jNVG5N_HoHWSJN9VmPhkHtEM24c/edit?usp=sharing)

@@ -1,6 +1,7 @@
+# 百年南遇
 ![image](./img/homepage.png)
 ****
-# 百年南遇
+## 百年南遇：基於PixiJS與LINE Bot之解謎遊戲
 2022年上下學期畢業專題--「百年南遇」。前端遊戲畫面主要使用PixiJS完成，遊戲LineBot則利用expressJS建置，並架設在Heroku雲平台上（目前已改架設至Zeabur）。
 
 1. [百年南遇-遊戲前端入口](https://noz915.github.io/pah-ni-lam-gu/main.html)
@@ -12,16 +13,16 @@
 ## 功能說明
 ### 首頁
 首頁按下Start即進入遊戲主畫面。，也可選擇help來幫助操作遊戲畫面。
-![image](./img/homepage.gif)
+
 ### 與對話框互動
 靠近相關建築物，即會觸發對話框，部分會觸發多個對話框，可以依靠空白鍵，跳到下一個對話。
-![image](./img/chatbox.gif)
+
 ### 取得道具
 可透過Line Bot線索，找到藏匿的道具，使用者已可能先行找到道具，但沒有Line Bot的對話推進下，無法進行劇情的推演。找到的道具將顯示在遊戲畫面的右上角，可透過點擊右上角已蒐集到的道具圖示，來展開並可察看道具細節與內容。
-![image](./img/getitems.gif)
+
 ### 切換場景
 透過空白鍵在正確的入口下可切換至不同場景。
-![image](./img/changeScene.gif)
+
 
 ### 設計說明
 #### 1. 遊戲大綱
